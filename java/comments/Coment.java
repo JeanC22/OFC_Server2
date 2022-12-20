@@ -31,51 +31,42 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Jeanpierr Caraballo
  */
 @Entity
-@Table(name = "COMENTS", schema = "OFC_DB")
-@NamedQueries({
-    @NamedQuery(name="findAllComments",
-                query="SELECT c FROM Comment c "),
-    
-    @NamedQuery(name="findAllCommentsOrderByMoreRecent",
-                query="SELECT c FROM Comment c ORDER BY C.publication_date DESC "),
-    
+@Table(name = "coments", schema = "OFC_DB")
+ @NamedQueries({
+    @NamedQuery(name="coments.findAll",
+                query="SELECT c FROM coments c"),
+    @NamedQuery(name="coments.findAllByMoreRecent",
+                query="SELECT c FROM coments c ORDER BY c.publication_date DESC"),
+  
     @NamedQuery(name="findAllCommentsOrderByLastPublicate",
-                query="SELECT c FROM Comment c ORDER BY C.publication_date ASC "),
-    
+                query="SELECT c FROM COMENTS c ORDER BY C.publication_date ASC")
+    /*
     @NamedQuery(name="findAllCommentsOrderByMoreRate",
-                query="SELECT c FROM Comment c ORDER BY C.valoration DESC"),
+                query="SELECT c FROM COMENTS c ORDER BY C.valoration DESC"),
     
-    @NamedQuery(name="findAllCommentsOrderByMoreRecent",
-                query="SELECT c FROM Comment c ORDER BY C.publication_date DESC"),
-    
-    @NamedQuery(name="findAllCommentsOrderBylastPublication",
-                query="SELECT c FROM Comment c WHERE ORDER BY C.publication_date ASC "),
-    
-    @NamedQuery(name="findAllCommentsOrderByMoreRate",
-                query="SELECT c FROM Comment c WHERE ORDER BY C.valoration DESC"),    
+    @NamedQuery(name="findAllCommentsOrderByLessRate",
+                query="SELECT c FROM COMENTS c WHERE ORDER BY C.valoration ASC"),    
  //searches by specific user    
     @NamedQuery(name="findAllMyComments",
-                query="SELECT c FROM Comment c WHERE c.id=:comClie"),
+                query="SELECT c FROM COMENTS c WHERE c.id=:comClie"),
     
     @NamedQuery(name="findMyCommentsOrderByMoreRecent",
-                query="SELECT c FROM Comment c WHERE c.id=:comClie ORDER BY C.publication_date DESC "),
+                query="SELECT c FROM COMENTS c WHERE c.id=:comClie ORDER BY C.publication_date DESC"),
     
     @NamedQuery(name="findMyCommentsOrderBylastPublication",
-                query="SELECT c FROM Comment c  WHERE c.id=:user ORDER BY C.publication_date ASC "),
+                query="SELECT c FROM COMENTS c  WHERE c.id=:comClie ORDER BY C.publication_date ASC"),
     
     @NamedQuery(name="findMyCommentsOrderByMoreRate",
-                query="SELECT c FROM Comment c WHERE c.id=:user ORDER BY C.valoration DESC"),
+                query="SELECT c FROM COMENTS c WHERE c.id=:comClie ORDER BY C.valoration DESC"),
     
     @NamedQuery(name="findMyCommentsPrivate",
-                query="SELECT c FROM Comment c WHERE c.id=:user ORDER BY C.privacity=1"),
+                query="SELECT c FROM COMENTS c WHERE c.id=:comClie ORDER BY C.privacity=1"),
     
     @NamedQuery(name="findMyCommentsPublic",
-                query="SELECT c FROM Comment c WHERE c.id=:user ORDER BY C.privacity=0"),
+                query="SELECT c FROM COMENTS c WHERE c.id=:comClie ORDER BY C.privacity=0"),
     
     @NamedQuery(name="findMyCommentsByEvent",
-                query="SELECT c FROM Comment c WHERE c.id=:user ORDER BY C.event"),
-  
-
+                query="SELECT c FROM COMENTS c WHERE c.id=:comClie ORDER BY C.event")*/
 })
 @XmlRootElement
 public class Coment implements Serializable {

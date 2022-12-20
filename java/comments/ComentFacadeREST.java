@@ -23,10 +23,10 @@ import javax.ws.rs.core.MediaType;
 
 /**
  *
- * @author JP
+ * @author 2dam
  */
 @Stateless
-@Path("entities.coment")
+@Path("comments.coment")
 public class ComentFacadeREST extends AbstractFacade<Coment> {
 
     @PersistenceContext(unitName = "OFC_ServerWebPU")
