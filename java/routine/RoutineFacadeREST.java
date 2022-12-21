@@ -6,6 +6,8 @@
 package routine;
 
 
+import routine.Routine;
+import entities.service.AbstractFacade;
 import entities.service.AbstractFacade;
 import java.util.List;
 import javax.ejb.EJB;

@@ -8,6 +8,8 @@ package routine;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import entities.Client;
+import entities.Client;
+import entities.Exercise;
 import entities.Exercise;
 import java.io.Serializable;
 import java.util.Date;
