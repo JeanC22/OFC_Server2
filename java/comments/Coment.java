@@ -12,10 +12,9 @@ import entities.Event;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -34,47 +33,50 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "coments", schema = "OFC_DB")
  @NamedQueries({
     @NamedQuery(name="coments.findAll",
-                query="SELECT c FROM coments c"),
-    @NamedQuery(name="coments.findAllByMoreRecent",
-                query="SELECT c FROM coments c ORDER BY c.publication_date DESC"),
+                query="SELECT c FROM Coment c"),
+     
+    @NamedQuery(name="coments.findBySubject",
+                query="SELECT c FROM Coment c where c.subject = :subject"),   
+      
+    @NamedQuery(name="coments.OrderByMoreRecent",
+                query="SELECT c FROM Coment c ORDER BY c.publication_date DESC"),
   
-    @NamedQuery(name="findAllCommentsOrderByLastPublicate",
-                query="SELECT c FROM COMENTS c ORDER BY C.publication_date ASC")
-    /*
-    @NamedQuery(name="findAllCommentsOrderByMoreRate",
-                query="SELECT c FROM COMENTS c ORDER BY C.valoration DESC"),
+    @NamedQuery(name="coments.OrderByLastPublicate",
+                query="SELECT c FROM Coment c ORDER BY c.publication_date ASC"),
+   
+    @NamedQuery(name="coments.OrderByMoreRate",
+                query="SELECT c FROM Coment c ORDER BY c.valoration DESC"),
     
-    @NamedQuery(name="findAllCommentsOrderByLessRate",
-                query="SELECT c FROM COMENTS c WHERE ORDER BY C.valoration ASC"),    
+   @NamedQuery(name="coments.OrderByLessRate",
+                query="SELECT c FROM Coment c ORDER BY c.valoration ASC"),
  //searches by specific user    
-    @NamedQuery(name="findAllMyComments",
-                query="SELECT c FROM COMENTS c WHERE c.id=:comClie"),
+    @NamedQuery(name="MyComments",
+                query="SELECT c FROM Coment c WHERE c.id = :comClie"),
     
-    @NamedQuery(name="findMyCommentsOrderByMoreRecent",
-                query="SELECT c FROM COMENTS c WHERE c.id=:comClie ORDER BY C.publication_date DESC"),
+    @NamedQuery(name="MyComments.OrderByMoreRecent",
+                query="SELECT c FROM Coment c WHERE c.id = :comClie ORDER BY c.publication_date DESC"),
     
-    @NamedQuery(name="findMyCommentsOrderBylastPublication",
-                query="SELECT c FROM COMENTS c  WHERE c.id=:comClie ORDER BY C.publication_date ASC"),
+    @NamedQuery(name="MyComments.OrderBylastPublication",
+                query="SELECT c FROM Coment c  WHERE c.id = :comClie ORDER BY c.publication_date ASC"),
     
-    @NamedQuery(name="findMyCommentsOrderByMoreRate",
-                query="SELECT c FROM COMENTS c WHERE c.id=:comClie ORDER BY C.valoration DESC"),
+    @NamedQuery(name="MyComments.OrderByMoreRate",
+                query="SELECT c FROM Coment c WHERE c.id = :comClie ORDER BY c.valoration DESC"),
     
-    @NamedQuery(name="findMyCommentsPrivate",
-                query="SELECT c FROM COMENTS c WHERE c.id=:comClie ORDER BY C.privacity=1"),
+    @NamedQuery(name="MyComments.Private",
+                query="SELECT c FROM Coment c WHERE c.id = :comClie and c.privacity=1"),
     
-    @NamedQuery(name="findMyCommentsPublic",
-                query="SELECT c FROM COMENTS c WHERE c.id=:comClie ORDER BY C.privacity=0"),
+    @NamedQuery(name="MyComments.Public",
+                query="SELECT c FROM Coment c WHERE c.id = :comClie and c.privacity=0"),
     
-    @NamedQuery(name="findMyCommentsByEvent",
-                query="SELECT c FROM COMENTS c WHERE c.id=:comClie ORDER BY C.event")*/
+    @NamedQuery(name="MyComments.ByEvent",
+                query="SELECT c FROM Coment c WHERE c.id = :comClie ORDER BY c.event")
 })
 @XmlRootElement
 public class Coment implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    @EmbeddedId
+    private ComentId comentid;
     
     @Temporal(TemporalType.TIMESTAMP)
     @JsonSerialize(as=Date.class)
@@ -93,18 +95,20 @@ public class Coment implements Serializable {
     private Boolean privacity;
 
     private String subject;
-    @ManyToOne
+    @ManyToOne 
+    @JoinColumn(name="comClie_id")
     private Client comClie;
     
     @ManyToOne
+ @JoinColumn(name="event_id")
     private Event event;
 
-    public Long getId() {
-        return id;
+    public ComentId getComentid() {
+        return comentid;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setComentid(ComentId comentid) {
+        this.comentid = comentid;
     }
 
     public Date getPublication_date() {
@@ -173,13 +177,21 @@ public class Coment implements Serializable {
 
     @Override
     public String toString() {
-        return "Coment{" + "id=" + id + ", message=" + message + '}';
+        return "Coment{" + "comentid=" + comentid + ", publication_date=" + publication_date + ", modification_date=" + modification_date + ", message=" + message + ", valoration=" + valoration + ", privacity=" + privacity + ", subject=" + subject + ", comClie=" + comClie + ", event=" + event + '}';
     }
 
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 41 * hash + Objects.hashCode(this.id);
+        int hash = 3;
+        hash = 71 * hash + Objects.hashCode(this.comentid);
+        hash = 71 * hash + Objects.hashCode(this.publication_date);
+        hash = 71 * hash + Objects.hashCode(this.modification_date);
+        hash = 71 * hash + Objects.hashCode(this.message);
+        hash = 71 * hash + Objects.hashCode(this.valoration);
+        hash = 71 * hash + Objects.hashCode(this.privacity);
+        hash = 71 * hash + Objects.hashCode(this.subject);
+        hash = 71 * hash + Objects.hashCode(this.comClie);
+        hash = 71 * hash + Objects.hashCode(this.event);
         return hash;
     }
 
@@ -195,10 +207,38 @@ public class Coment implements Serializable {
             return false;
         }
         final Coment other = (Coment) obj;
-        if (!Objects.equals(this.id, other.id)) {
+        if (!Objects.equals(this.message, other.message)) {
+            return false;
+        }
+        if (!Objects.equals(this.subject, other.subject)) {
+            return false;
+        }
+        if (!Objects.equals(this.comentid, other.comentid)) {
+            return false;
+        }
+        if (!Objects.equals(this.publication_date, other.publication_date)) {
+            return false;
+        }
+        if (!Objects.equals(this.modification_date, other.modification_date)) {
+            return false;
+        }
+        if (!Objects.equals(this.valoration, other.valoration)) {
+            return false;
+        }
+        if (!Objects.equals(this.privacity, other.privacity)) {
+            return false;
+        }
+        if (!Objects.equals(this.comClie, other.comClie)) {
+            return false;
+        }
+        if (!Objects.equals(this.event, other.event)) {
             return false;
         }
         return true;
     }
+
+
+
+   
 }
       
