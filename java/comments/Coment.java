@@ -16,6 +16,7 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -50,25 +51,28 @@ import javax.xml.bind.annotation.XmlRootElement;
    @NamedQuery(name="coments.OrderByLessRate",
                 query="SELECT c FROM Coment c ORDER BY c.valoration ASC"),
  //searches by specific user    
-    @NamedQuery(name="MyComments",
+    @NamedQuery(name="MyComents",
                 query="SELECT c FROM Coment c WHERE c.id = :comClie"),
     
-    @NamedQuery(name="MyComments.OrderByMoreRecent",
+    @NamedQuery(name="MyComents.OrderByMoreRecent",
                 query="SELECT c FROM Coment c WHERE c.id = :comClie ORDER BY c.publication_date DESC"),
     
-    @NamedQuery(name="MyComments.OrderBylastPublication",
+    @NamedQuery(name="MyComents.OrderBylastPublication",
                 query="SELECT c FROM Coment c  WHERE c.id = :comClie ORDER BY c.publication_date ASC"),
     
-    @NamedQuery(name="MyComments.OrderByMoreRate",
+    @NamedQuery(name="MyComents.OrderByMoreRate",
                 query="SELECT c FROM Coment c WHERE c.id = :comClie ORDER BY c.valoration DESC"),
     
-    @NamedQuery(name="MyComments.Private",
+      @NamedQuery(name="MyComents.OrderByLessRate",
+                query="SELECT c FROM Coment c WHERE c.id = :comClie ORDER BY c.valoration ASC"),
+    
+    @NamedQuery(name="MyComents.Private",
                 query="SELECT c FROM Coment c WHERE c.id = :comClie and c.privacity=1"),
     
-    @NamedQuery(name="MyComments.Public",
+    @NamedQuery(name="MyComents.Public",
                 query="SELECT c FROM Coment c WHERE c.id = :comClie and c.privacity=0"),
     
-    @NamedQuery(name="MyComments.ByEvent",
+    @NamedQuery(name="MyComents.ByEvent",
                 query="SELECT c FROM Coment c WHERE c.id = :comClie ORDER BY c.event")
 })
 @XmlRootElement
@@ -95,12 +99,15 @@ public class Coment implements Serializable {
     private Boolean privacity;
 
     private String subject;
+    
+    @MapsId("client_id")
     @ManyToOne 
     @JoinColumn(name="comClie_id")
     private Client comClie;
     
+    @MapsId("event_id")
     @ManyToOne
- @JoinColumn(name="event_id")
+    @JoinColumn(name="event_id")
     private Event event;
 
     public ComentId getComentid() {

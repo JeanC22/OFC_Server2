@@ -7,7 +7,10 @@ package comments;
 
 import comments.Coment;
 import entities.service.AbstractFacade;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -27,66 +30,206 @@ import javax.ws.rs.core.MediaType;
  */
 @Stateless
 @Path("comments.coment")
-public class ComentFacadeREST extends AbstractFacade<Coment> {
+public class ComentFacadeREST {
 
     @PersistenceContext(unitName = "OFC_ServerWebPU")
-    private EntityManager em;
+    @EJB
+    private EJBComentManager ejb;
+    private Set<Coment> coments = new HashSet<>();
 
     public ComentFacadeREST() {
-        super(Coment.class);
+
     }
+//crear
 
     @POST
-    @Override
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void create(Coment entity) {
-        super.create(entity);
+    public void create(Coment coment) {
+        try {
+            ejb.createComent(coment);
+        } catch (Exception e) {
+        }
     }
+//edit
 
     @PUT
     @Path("{id}")
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void edit(@PathParam("id") Long id, Coment entity) {
-        super.edit(entity);
+    public void edit(@PathParam("id") Long id, Coment coment) {
+        try {
+            ejb.editComent(coment);
+        } catch (Exception e) {
+        }
     }
 
     @DELETE
     @Path("{id}")
     public void remove(@PathParam("id") Long id) {
-        super.remove(super.find(id));
+        try {
+            ejb.deleteComent(id);
+        } catch (Exception e) {
+        }
+    }
+
+    @GET
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public Set<Coment> findAllComents() {
+        try {
+            coments = ejb.getAllComents();
+        } catch (Exception e) {
+        }
+        return coments;
+    }
+
+    @GET
+    @Path("{subject}")
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public Set<Coment> find(@PathParam("subject") String subject) {
+        try {
+            coments = ejb.findBySubject(subject);
+        } catch (Exception e) {
+        }
+        return coments;
+    }
+
+    @GET
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public Set<Coment> findOrderByMoreRecent() {
+        try {
+            ejb.findOrderByMoreRecent();
+        } catch (Exception e) {
+        }
+        return coments;
+
     }
 
     @GET
     @Path("{id}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public Coment find(@PathParam("id") Long id) {
-        return super.find(id);
+    public Set<Coment> findOrderByLastPublicate(@PathParam("id") Long id) {
+        try {
+            coments = ejb.findOrderByLastPublicate();
+        } catch (Exception e) {
+        }
+        return coments;
+
     }
 
     @GET
-    @Override
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<Coment> findAll() {
-        return super.findAll();
+    public Set<Coment> findOrderByMoreRate() {
+        try {
+            coments = ejb.findOrderByMoreRate();
+        } catch (Exception e) {
+        }
+        return coments;
     }
 
     @GET
-    @Path("{from}/{to}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<Coment> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
-        return super.findRange(new int[]{from, to});
+    public Set<Coment> findOrderByLessRate() {
+        try {
+            coments = ejb.findOrderByLessRate();
+        } catch (Exception e) {
+        }
+        return coments;
+
     }
 
     @GET
-    @Path("count")
-    @Produces(MediaType.TEXT_PLAIN)
-    public String countREST() {
-        return String.valueOf(super.count());
+    @Path("{id}")
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public Set<Coment> findMyComments(@PathParam("id") Long id) {
+        try {
+            coments = ejb.findMyComments(id);
+        } catch (Exception e) {
+        }
+        return coments;
+
     }
 
-    @Override
-    protected EntityManager getEntityManager() {
-        return em;
+    @GET
+    @Path("{id}")
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public Set<Coment> findMyComentOrderByMoreRecent(@PathParam("id") Long id) {
+        try {
+            coments = ejb.findMyComentOrderByMoreRecent(id);
+        } catch (Exception e) {
+        }
+        return coments;
+
     }
-    
+
+    @GET
+    @Path("{id}")
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public Set<Coment> find(@PathParam("id") Long id) {
+        try {
+            coments = ejb.findMyComentOrderBylastPublication(id);
+        } catch (Exception e) {
+        }
+        return coments;
+
+    }
+
+    @GET
+    @Path("{id}")
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public Set<Coment> findMyComentOrderByMoreRate(@PathParam("id") Long id) {
+        try {
+            coments = ejb.findMyComentOrderByMoreRate(id);
+        } catch (Exception e) {
+        }
+        return coments;
+
+    }
+
+    @GET
+    @Path("{id}")
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public Set<Coment> findMyComentOrderByLessRate(@PathParam("id") Long id) {
+        try {
+            coments = ejb.findMyComentOrderByLessRate(id);
+        } catch (Exception e) {
+        }
+        return coments;
+
+    }
+
+    @GET
+    @Path("{id}")
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public Set<Coment> findMyPrivateComents(@PathParam("id") Long id) {
+        try {
+            coments = ejb.findMyPrivateComents(id);
+        } catch (Exception e) {
+        }
+        return coments;
+
+    }
+
+    @GET
+    @Path("{id}")
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public Set<Coment> findMyPublicComents(@PathParam("id") Long id) {
+        try {
+            coments = ejb.findMyPublicComents(id);
+        } catch (Exception e) {
+        }
+        return coments;
+
+    }
+
+    @GET
+    @Path("{id}")
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public Set<Coment> findMyCommentByEvent(@PathParam("id") Long id) {
+        try {
+            coments = ejb.findMyCommentByEvent(id);
+        } catch (Exception e) {
+        }
+        return coments;
+
+    }
+
 }

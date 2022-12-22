@@ -31,8 +31,8 @@ public interface CommentsMannager {
      * @throws CreateException Thrown when any error or exception occurs during
      * creation.
      */
-    public void deleteComent(Coment coment);
-    
+    public void deleteComent(Long id);
+
     /**
      * This method creates a new message in a event.
      *
@@ -41,15 +41,6 @@ public interface CommentsMannager {
      * creation.
      */
     public void editComent(Coment coment);
-    
-    /**
-     * This method creates a new message in a event.
-     *
-     * @param coment The coment entity object containing new account data
-     * @throws CreateException Thrown when any error or exception occurs during
-     * creation.
-     */
-    public Set<Coment> getAllComents(Coment coment);
 
     /**
      * This method creates a new message in a event.
@@ -58,7 +49,7 @@ public interface CommentsMannager {
      * @throws CreateException Thrown when any error or exception occurs during
      * creation.
      */
-    public Set<Coment> findBySubject(Coment coment);
+    public Set<Coment> getAllComents();
 
     /**
      * This method creates a new message in a event.
@@ -67,7 +58,7 @@ public interface CommentsMannager {
      * @throws CreateException Thrown when any error or exception occurs during
      * creation.
      */
-    public Set<Coment> findOrderByMoreRecent(Coment coment);
+    public Set<Coment> findBySubject(String subject);
 
     /**
      * This method creates a new message in a event.
@@ -76,7 +67,7 @@ public interface CommentsMannager {
      * @throws CreateException Thrown when any error or exception occurs during
      * creation.
      */
-    public Set<Coment> findOrderByLastPublicate(Coment coment);
+    public Set<Coment> findOrderByMoreRecent();
 
     /**
      * This method creates a new message in a event.
@@ -85,7 +76,7 @@ public interface CommentsMannager {
      * @throws CreateException Thrown when any error or exception occurs during
      * creation.
      */
-    public Set<Coment> findOrderByMoreRate(Coment coment);
+    public Set<Coment> findOrderByLastPublicate();
 
     /**
      * This method creates a new message in a event.
@@ -94,7 +85,7 @@ public interface CommentsMannager {
      * @throws CreateException Thrown when any error or exception occurs during
      * creation.
      */
-    public Set<Coment> findOrderByLessRate(Coment coment);
+    public Set<Coment> findOrderByMoreRate();
 
     /**
      * This method creates a new message in a event.
@@ -103,7 +94,7 @@ public interface CommentsMannager {
      * @throws CreateException Thrown when any error or exception occurs during
      * creation.
      */
-    public Set<Coment> findMyComments(Coment coment);
+    public Set<Coment> findOrderByLessRate();
 
     /**
      * This method creates a new message in a event.
@@ -112,7 +103,7 @@ public interface CommentsMannager {
      * @throws CreateException Thrown when any error or exception occurs during
      * creation.
      */
-    public Set<Coment> findOrderBylastPublication(Coment coment);
+    public Set<Coment> findMyComments(Long id);
 
     /**
      * This method creates a new message in a event.
@@ -121,7 +112,7 @@ public interface CommentsMannager {
      * @throws CreateException Thrown when any error or exception occurs during
      * creation.
      */
-    public Set<Coment> findPrivateComents(Coment coment);
+    public Set<Coment> findMyComentOrderByMoreRecent(Long id);
 
     /**
      * This method creates a new message in a event.
@@ -130,7 +121,7 @@ public interface CommentsMannager {
      * @throws CreateException Thrown when any error or exception occurs during
      * creation.
      */
-    public Set<Coment> findPublicComents(Coment coment);
+    public Set<Coment> findMyComentOrderBylastPublication(Long id);
 
     /**
      * This method creates a new message in a event.
@@ -139,7 +130,43 @@ public interface CommentsMannager {
      * @throws CreateException Thrown when any error or exception occurs during
      * creation.
      */
-    public Set<Coment> findByEvent(Coment coment);
+    public Set<Coment> findMyComentOrderByMoreRate(Long id);
+
+    /**
+     * This method creates a new message in a event.
+     *
+     * @param coment The coment entity object containing new account data
+     * @throws CreateException Thrown when any error or exception occurs during
+     * creation.
+     */
+    public Set<Coment> findMyComentOrderByLessRate(Long id);
+
+    /**
+     * This method creates a new message in a event.
+     *
+     * @param coment The coment entity object containing new account data
+     * @throws CreateException Thrown when any error or exception occurs during
+     * creation.
+     */
+    public Set<Coment> findMyPrivateComents(Long id);
+
+    /**
+     * This method creates a new message in a event.
+     *
+     * @param coment The coment entity object containing new account data
+     * @throws CreateException Thrown when any error or exception occurs during
+     * creation.
+     */
+    public Set<Coment> findMyPublicComents(Long id);
+
+    /**
+     * This method creates a new message in a event.
+     *
+     * @param coment The coment entity object containing new account data
+     * @throws CreateException Thrown when any error or exception occurs during
+     * creation.
+     */
+    public Set<Coment> findMyCommentByEvent(Long id);
     /**
      * This method creates a new message in a event.
      *
