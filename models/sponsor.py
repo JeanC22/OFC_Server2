@@ -5,13 +5,13 @@
 from odoo import models, fields, api
 
 class sponsor(models.Model):
-    _name = 'ofc_odoo.ofc_odoo'
+    _name = 'ofc_odoo.sponsor'
+    
     name = fields.Char(required = True)
-    email = fields.Char()
+    email = fields.Char(required = True)
     state = fields.Boolean()
-    date = fields.Datetime()
-    phone = fields.Integer()
-    adType = fields.Selection()
+    date = fields.Datetime(required = True)
+    phone = fields.Integer(required = True)
     events = fields.Many2Many('ofc_odoo.event', string ="Events")
-    admin = fields.Many2One('res.Users', required = True)
+    admin = fields.Many2One('res.Users', string ="Admin", required = True)
     
