@@ -8,9 +8,6 @@ package routine;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import entities.Client;
-import entities.Client;
-import entities.Exercise;
-import entities.Exercise;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -35,13 +32,13 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "ROUTINES", schema = "OFC_DB")
-/*@NamedQueries({
-    @NamedQuery(name="consultRoutineByName", query="SELECT * FROM Routine WHERE name= :name"),
+@NamedQueries({
+    @NamedQuery(name="consultRoutineByName", query="SELECT r FROM Routine r WHERE r.name= :name"),
     
-    @NamedQuery(name="consultRoutineByExercise", query="SELECT * FROM Routine WHERE exercise= :exercise"),
+    @NamedQuery(name="consultRoutineByExercise", query="SELECT r FROM Routine r WHERE r.exercises= :exercises"),
     
-    @NamedQuery(name="consultAllRoutines", query="SELECT * FROM Routine"),
-})*/
+    @NamedQuery(name="consultAllRoutines", query="SELECT r FROM Routine r WHERE r.clie= :clie"),
+})
 @XmlRootElement
 public class Routine implements Serializable {
 
@@ -72,7 +69,7 @@ public class Routine implements Serializable {
      */
     @ManyToMany
     @JoinTable(name="routine_exercises", schema="OFC_DB")
-    private List<Exercise> ejercicios;
+    private List<Exercise> exercises;
     
     private Float time;
 
@@ -126,11 +123,11 @@ public class Routine implements Serializable {
 
     @XmlTransient
     public List<Exercise> getEjercicios() {
-        return ejercicios;
+        return exercises;
     }
 
-    public void setEjercicios(List<Exercise> ejercicios) {
-        this.ejercicios = ejercicios;
+    public void setEjercicios(List<Exercise> exercises) {
+        this.exercises = exercises;
     }
 
     public Float getTime() {

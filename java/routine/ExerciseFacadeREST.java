@@ -5,12 +5,8 @@
  */
 package routine;
 
-
 import entities.service.AbstractFacade;
-import exceptions.ReadException;
 import java.util.List;
-import java.util.Set;
-import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -26,71 +22,57 @@ import javax.ws.rs.core.MediaType;
 
 /**
  *
- * @author 2dam
+ * @author Aritz
  */
 @Stateless
-@Path("ofc_server2.entities.routine")
-public class RoutineFacadeREST extends AbstractFacade<Routine> {
+@Path("entities.exercise")
+public class ExerciseFacadeREST extends AbstractFacade<Exercise> {
 
     @PersistenceContext(unitName = "OFC_ServerWebPU")
     private EntityManager em;
 
-    public RoutineFacadeREST() {
-        super(Routine.class);
-    }
-    
-    @EJB
-    private RoutineManager ejb;
-    
-    public Set<Routine> consultAllRoutines(Integer id){
-        return null;
-        
+    public ExerciseFacadeREST() {
+        super(Exercise.class);
     }
 
     @POST
     @Override
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void create(Routine entity) {
+    public void create(Exercise entity) {
         super.create(entity);
     }
 
     @PUT
     @Path("{id}")
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void edit(@PathParam("id") Integer id, Routine entity) {
+    public void edit(@PathParam("id") Long id, Exercise entity) {
         super.edit(entity);
     }
 
     @DELETE
     @Path("{id}")
-    public void remove(@PathParam("id") Integer id) {
+    public void remove(@PathParam("id") Long id) {
         super.remove(super.find(id));
     }
 
     @GET
     @Path("{id}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public Routine find(@PathParam("id") Integer id) {
-         try {
-            
-            return (Routine) ejb.consultAllRoutines(id);
-        } catch (ReadException e) {
-        }
+    public Exercise find(@PathParam("id") Long id) {
         return super.find(id);
     }
 
     @GET
     @Override
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<Routine> findAll() {
-       
+    public List<Exercise> findAll() {
         return super.findAll();
     }
 
     @GET
     @Path("{from}/{to}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<Routine> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
+    public List<Exercise> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
         return super.findRange(new int[]{from, to});
     }
 
