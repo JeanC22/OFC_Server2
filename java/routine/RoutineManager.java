@@ -7,19 +7,22 @@ package routine;
 
 import exceptions.CreateException;
 import exceptions.DeleteException;
-import java.util.Set;
 import exceptions.ReadException;
+import java.util.Set;
+
 import exceptions.UpdateException;
+import javax.ejb.Local;
 
 /**
  *
- * @author 2dam
+ * @author Aritz
  */
+@Local
 public interface RoutineManager {
     
     public Set<Routine> consultRoutineByName(String name) throws ReadException;
     
-    public Set<Routine> consultRoutineByExercise(String Exercise) throws ReadException;
+    public Set<Routine> consultRoutineByExercise(Integer id) throws ReadException;
     
     public Set<Routine> consultAllRoutines(Integer id) throws ReadException;
     

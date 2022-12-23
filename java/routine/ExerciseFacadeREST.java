@@ -6,7 +6,11 @@
 package routine;
 
 import entities.service.AbstractFacade;
+import exceptions.CreateException;
+import exceptions.UpdateException;
 import java.util.List;
+import java.util.logging.Logger;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -25,11 +29,17 @@ import javax.ws.rs.core.MediaType;
  * @author Aritz
  */
 @Stateless
-@Path("entities.exercise")
+@Path("exercise")
 public class ExerciseFacadeREST extends AbstractFacade<Exercise> {
+
+    private static final Logger LOGGER = Logger.getLogger("routine.ExerciseFacadeREST");
 
     @PersistenceContext(unitName = "OFC_ServerWebPU")
     private EntityManager em;
+    
+        
+    @EJB
+    private ExerciseManager ejb;
 
     public ExerciseFacadeREST() {
         super(Exercise.class);
@@ -38,15 +48,24 @@ public class ExerciseFacadeREST extends AbstractFacade<Exercise> {
     @POST
     @Override
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void create(Exercise entity) {
-        super.create(entity);
+    public void create(Exercise exercise) {
+       try {
+           ejb.addExercise(exercise);
+        } catch (CreateException e) {
+            //throw new  (e.getMessage());
+        }
     }
 
     @PUT
     @Path("{id}")
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void edit(@PathParam("id") Long id, Exercise entity) {
-        super.edit(entity);
+    public void edit(@PathParam("id") Long id, Exercise exercise) {
+        try {
+           ejb.updateExercise(exercise);
+        } catch (UpdateException e) {
+            LOGGER.severe(e.getMessage());
+            //throw new  (e.getMessage());
+        }
     }
 
     @DELETE

@@ -34,10 +34,10 @@ public class ApplicationConfig extends Application {
         resources.add(entities.service.ClientFacadeREST.class);
         resources.add(entities.service.ComentFacadeREST.class);
         resources.add(entities.service.EventFacadeREST.class);
-        resources.add(entities.service.ExerciseFacadeREST.class);
-        resources.add(entities.service.RoutineFacadeREST.class);
         resources.add(entities.service.SponsorFacadeREST.class);
         resources.add(entities.service.UserFacadeREST.class);
+        resources.add(routine.ExerciseFacadeREST.class);
+        resources.add(routine.RoutineFacadeREST.class);
     }
    
     

@@ -35,9 +35,10 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name="consultRoutineByName", query="SELECT r FROM Routine r WHERE r.name= :name"),
     
-    @NamedQuery(name="consultRoutineByExercise", query="SELECT r FROM Routine r WHERE r.exercises= :exercises"),
+    @NamedQuery(name="consultAllRoutines", query="SELECT r FROM Routine r"),
+    //@NamedQuery(name="consultRoutineByExercise", query="SELECT r FROM Routine r WHERE r.id = (SELECT re.ROUTINES_id FROM routine_exercises re WHERE re.ejercicios_id= :id)"),
     
-    @NamedQuery(name="consultAllRoutines", query="SELECT r FROM Routine r WHERE r.clie= :clie"),
+    @NamedQuery(name="consultAllClientRoutines", query="SELECT r FROM Routine r WHERE r.clie= :clie"),
 })
 @XmlRootElement
 public class Routine implements Serializable {

@@ -7,7 +7,7 @@ package routine;
 
 /**
  *
- * @author 2dam
+ * @author Aritz
  */
 public enum Exercises {
     ABDOMINALES,

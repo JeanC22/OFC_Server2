@@ -5,6 +5,7 @@
  */
 package entities;
 
+
 import java.io.Serializable;
 import java.util.Set;
 import javax.persistence.DiscriminatorValue;
@@ -13,6 +14,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import routine.Routine;
 
 /**
  *
@@ -61,7 +63,4 @@ public class Client extends User implements Serializable {
     public void setRutinas(Set<Routine> rutinas) {
         this.rutinas = rutinas;
     }
-
-  
-    
 }

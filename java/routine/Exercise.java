@@ -14,6 +14,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -24,6 +26,11 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "EXERCISES", schema = "OFC_DB")
+@NamedQueries({
+    @NamedQuery(name="consultExerciseByName", query="SELECT e FROM Exercise e WHERE e.exercise= :exercise"),
+    
+    @NamedQuery(name="consultAllExercises", query="SELECT e FROM Exercise e"),
+})
 @XmlRootElement
 public class Exercise implements Serializable {
 
