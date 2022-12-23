@@ -13,12 +13,12 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 /**
- * EJB Sponsor
- * @author Elias
+ *
+ * @author 2dam
  */
 @Stateless
 public class EJBSponsorManager implements SponsorManager{
-    @PersistenceContext(unitName = "OFC_ServerWebPU")
+    @PersistenceContext
     private EntityManager em;
     /**
      * Creates Sponsors
@@ -26,7 +26,11 @@ public class EJBSponsorManager implements SponsorManager{
      */
     @Override
     public void createSponsor(Sponsor sponsor) {
-        em.persist(sponsor);
+        try {
+            em.persist(sponsor);
+        } catch (Exception e) {
+        }
+        
     }
     /**
      * Update Sponsor
@@ -34,8 +38,12 @@ public class EJBSponsorManager implements SponsorManager{
      */
     @Override
     public void updateSponsor(Sponsor sponsor) {
-        em.merge(sponsor);
-        em.flush();
+        try {
+            em.merge(sponsor);
+            em.flush();
+        } catch (Exception e) {
+        }
+        
     }
     /**
      * Delete Sponsors
@@ -43,8 +51,12 @@ public class EJBSponsorManager implements SponsorManager{
      */
     @Override
     public void removeSponsor(Sponsor sponsor) {
-        sponsor = em.merge(sponsor);
-        em.remove(sponsor);
+        try {
+            sponsor = em.merge(sponsor);
+            em.remove(sponsor);
+        } catch (Exception e) {
+        }
+        
     }
     /**
      * Finds a list for all Sponsor
@@ -53,7 +65,12 @@ public class EJBSponsorManager implements SponsorManager{
     @Override
     public Set<Sponsor> findAllSponsor() {
         Set<Sponsor> sponsors = null;
-        sponsors = new HashSet<>(em.createNamedQuery("findAllSponsor").getResultList());
+        try {
+           sponsors = new HashSet<>(em.createNamedQuery("findAllSponsor")
+                   .getResultList());
+           
+        } catch (Exception e) {
+        }
         return sponsors;
     }
     /**
@@ -64,7 +81,12 @@ public class EJBSponsorManager implements SponsorManager{
     @Override
     public Sponsor findSponsorByName(String name) {
         Sponsor sponsor = null;
-        sponsor = (Sponsor) em.createNamedQuery("findSponsorByName").setParameter("name", name).getSingleResult();
+        try {
+            sponsor = (Sponsor) em.createNamedQuery("findSponsorByName")
+                    .setParameter("name", name).getSingleResult();
+        } catch (Exception e) {
+        }
+        
         return sponsor;
     }
     /**
@@ -75,8 +97,21 @@ public class EJBSponsorManager implements SponsorManager{
     @Override
     public Set<Sponsor> findSponsorByDate(Date date) {
         Set<Sponsor> sponsors = null;
-        sponsors = new HashSet<>(em.createNamedQuery("findSponsorByDate").setParameter("date", date).getResultList());
+        try {
+            sponsors = new HashSet<>(em.createNamedQuery("findSponsorByDate")
+                    .setParameter("date", date).getResultList());
+        } catch (Exception e) {
+        }
+        
         return sponsors;
+    }
+
+    @Override
+    public Sponsor findSponsor(Long id) {
+        Sponsor sponsor;
+        sponsor = em.find(Sponsor.class, id);
+        return sponsor;
     }
     
 }
+

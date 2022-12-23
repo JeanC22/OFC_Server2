@@ -18,19 +18,17 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-
-//select e from event e where e.id in(select ec.events_id from event_client where clients_id = )
 /**
  * Restful service for Sponsor
  * @author Elias
  */
-@Path("sponsor")
+@Path("sponsors.sponsor")
 public class SponsorFacadeREST {
     /**
      * EJB object
      */
     @EJB
-    private EJBSponsorManager ejb;
+    private SponsorManager ejb;
     
     /**
      * POST method to create Sponsor
@@ -39,7 +37,11 @@ public class SponsorFacadeREST {
     @POST
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public void create(Sponsor entity) {
-        ejb.createSponsor(entity);
+        try {
+            ejb.createSponsor(entity);
+        } catch (Exception e) {
+        }
+            
     }
     /**
      * PUT method to modify Sponsor
@@ -48,27 +50,41 @@ public class SponsorFacadeREST {
     @PUT
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public void edit(Sponsor entity) {
-        ejb.updateSponsor(entity);
+        try {
+           ejb.updateSponsor(entity); 
+        } catch (Exception e) {
+        }
+          
+        
     }
     /**
      * DELETE method to remove Sponsor
      * @param name The name for Sponsor
      */
     @DELETE
-    @Path("{name}")
-    public void remove(@PathParam("name") String name) {
-        ejb.removeSponsor(ejb.findSponsorByName(name));
+    @Path("{id}")
+    public void remove(@PathParam("id") String name) {
+        try {
+           ejb.removeSponsor(ejb.findSponsorByName(name)); 
+        } catch (Exception e) {
+        }
+        
     }
     /**
      * GET method to get Sponsor by name
-     * @param name The name for Sponsor
+     * @param id id for Sponsor
      * @return Sponsor object
      */
     @GET
-    @Path("findSponsorByName/{name}")
+    @Path("{id}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public Sponsor find(@PathParam("name") String name) {
-        return ejb.findSponsorByName(name);
+    public Sponsor find(@PathParam("id") Long id) {
+        Sponsor sponsor = null;
+        try {
+           sponsor = ejb.findSponsor(id);
+        } catch (Exception e) {
+        }
+        return sponsor;
     }
     /**
      * GET method to get all Sponsors 
@@ -77,7 +93,9 @@ public class SponsorFacadeREST {
     @GET
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public Set<Sponsor> findAll() {
-        return ejb.findAllSponsor();
+        Set<Sponsor> sponsors = null;
+        sponsors = ejb.findAllSponsor();
+        return sponsors;
     }
     /**
      * GET method to get Sponsors by Date
@@ -88,6 +106,11 @@ public class SponsorFacadeREST {
     @Path("findSponsorByDate/{date}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public Set<Sponsor> findRange(@PathParam("date") Date date) {
-        return ejb.findSponsorByDate(date);
+        Set<Sponsor> sponsors = null;
+        try {
+           sponsors=ejb.findSponsorByDate(date); 
+        } catch (Exception e) {
+        }
+        return sponsors;
     }
 }

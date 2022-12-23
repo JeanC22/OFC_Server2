@@ -11,7 +11,6 @@ import entities.Admin;
 import entities.Event;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -33,7 +32,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Elias
  */
 @Entity
-@Table(name = "SPONSORS", schema = "OFC_DB")
+@Table(name = "sponsors", schema = "ofc_db")
 //consultas
 @NamedQueries({
     @NamedQuery(name="findAllSponsor", 
@@ -83,6 +82,14 @@ public class Sponsor implements Serializable {
         super();
     }
 
+    public Admin getAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(Admin admin) {
+        this.admin = admin;
+    }
+    
     public Long getId() {
         return id;
     }

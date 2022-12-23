@@ -31,7 +31,13 @@ public interface SponsorManager {
      */
     public void removeSponsor(Sponsor sponsor);
     /**
-     * This methos get all sponsors
+     * This method get sponsor by id
+     * @param id Sponsor id
+     * @return Sponsor Object
+     */
+    public Sponsor findSponsor(Long id);
+    /**
+     * This method get all sponsors
      * @return list Sponsor
      */
     public Set<Sponsor> findAllSponsor();
