@@ -6,14 +6,9 @@
 package comments;
 
 import comments.Coment;
-import entities.service.AbstractFacade;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import javax.ejb.EJB;
-import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -26,25 +21,22 @@ import javax.ws.rs.core.MediaType;
 
 /**
  *
- * @author 2dam
+ * @author Jeanpierr Caraballo
  */
-@Stateless
-@Path("comments.coment")
+
+@Path("entities.coment")
 public class ComentFacadeREST {
 
-    @PersistenceContext(unitName = "OFC_ServerWebPU")
     @EJB
-    private EJBComentManager ejb;
-    private Set<Coment> coments = new HashSet<>();
-
-    public ComentFacadeREST() {
-
-    }
+    private comments.CommentsMannager ejb;
+        
+    private Set<Coment> coments = null;
 //crear
 
     @POST
+    @Path("createComent/{coment}")
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void create(Coment coment) {
+    public void createComent(@PathParam("coment") Coment coment) {
         try {
             ejb.createComent(coment);
         } catch (Exception e) {
@@ -53,9 +45,9 @@ public class ComentFacadeREST {
 //edit
 
     @PUT
-    @Path("{id}")
+    @Path("editComent/{coment}")
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void edit(@PathParam("id") Long id, Coment coment) {
+    public void editComent(@PathParam("coment") Coment coment) {
         try {
             ejb.editComent(coment);
         } catch (Exception e) {
@@ -63,8 +55,8 @@ public class ComentFacadeREST {
     }
 
     @DELETE
-    @Path("{id}")
-    public void remove(@PathParam("id") Long id) {
+    @Path("deleteComent/{id}")
+    public void deleteComent(@PathParam("id") Long id) {
         try {
             ejb.deleteComent(id);
         } catch (Exception e) {
@@ -72,6 +64,7 @@ public class ComentFacadeREST {
     }
 
     @GET
+    @Path("findAllComents")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public Set<Coment> findAllComents() {
         try {
@@ -82,7 +75,7 @@ public class ComentFacadeREST {
     }
 
     @GET
-    @Path("{subject}")
+    @Path("findBySubject/{subject}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public Set<Coment> find(@PathParam("subject") String subject) {
         try {
@@ -93,6 +86,7 @@ public class ComentFacadeREST {
     }
 
     @GET
+    @Path("findOrderByMoreRecent")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public Set<Coment> findOrderByMoreRecent() {
         try {
@@ -104,7 +98,7 @@ public class ComentFacadeREST {
     }
 
     @GET
-    @Path("{id}")
+    @Path("findOrderByLastPublicate/{id}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public Set<Coment> findOrderByLastPublicate(@PathParam("id") Long id) {
         try {
@@ -116,6 +110,7 @@ public class ComentFacadeREST {
     }
 
     @GET
+    @Path("findOrderByMoreRate")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public Set<Coment> findOrderByMoreRate() {
         try {
@@ -126,6 +121,7 @@ public class ComentFacadeREST {
     }
 
     @GET
+    @Path("findOrderByLessRate")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public Set<Coment> findOrderByLessRate() {
         try {
@@ -137,7 +133,7 @@ public class ComentFacadeREST {
     }
 
     @GET
-    @Path("{id}")
+    @Path("findMyComments/{id}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public Set<Coment> findMyComments(@PathParam("id") Long id) {
         try {
@@ -149,7 +145,7 @@ public class ComentFacadeREST {
     }
 
     @GET
-    @Path("{id}")
+    @Path("findMyComentOrderByMoreRecent/{id}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public Set<Coment> findMyComentOrderByMoreRecent(@PathParam("id") Long id) {
         try {
@@ -161,7 +157,7 @@ public class ComentFacadeREST {
     }
 
     @GET
-    @Path("{id}")
+    @Path("findMyComentOrderBylastPublication/{id}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public Set<Coment> find(@PathParam("id") Long id) {
         try {
@@ -173,7 +169,7 @@ public class ComentFacadeREST {
     }
 
     @GET
-    @Path("{id}")
+    @Path("findMyComentOrderByMoreRate/{id}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public Set<Coment> findMyComentOrderByMoreRate(@PathParam("id") Long id) {
         try {
@@ -185,7 +181,7 @@ public class ComentFacadeREST {
     }
 
     @GET
-    @Path("{id}")
+    @Path("findMyComentOrderByLessRate/{id}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public Set<Coment> findMyComentOrderByLessRate(@PathParam("id") Long id) {
         try {
@@ -197,7 +193,7 @@ public class ComentFacadeREST {
     }
 
     @GET
-    @Path("{id}")
+    @Path("findMyPrivateComents/{id}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public Set<Coment> findMyPrivateComents(@PathParam("id") Long id) {
         try {
@@ -209,7 +205,7 @@ public class ComentFacadeREST {
     }
 
     @GET
-    @Path("{id}")
+    @Path("findMyPublicComents/{id}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public Set<Coment> findMyPublicComents(@PathParam("id") Long id) {
         try {
@@ -221,7 +217,7 @@ public class ComentFacadeREST {
     }
 
     @GET
-    @Path("{id}")
+    @Path("findMyCommentByEvent/{id}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public Set<Coment> findMyCommentByEvent(@PathParam("id") Long id) {
         try {

@@ -5,14 +5,15 @@
  */
 package comments;
 
-import entities.Event;
 import java.util.Set;
+import javax.ejb.Local;
 
 /**
  *
  * @author Jeanpierr Caraballo
  *
  */
+@Local
 public interface CommentsMannager {
 
     /**

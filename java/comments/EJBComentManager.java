@@ -5,6 +5,8 @@
  */
 package comments;
 
+import comments.Coment;
+import comments.CommentsMannager;
 import java.util.HashSet;
 import java.util.Set;
 import javax.ejb.Stateless;
