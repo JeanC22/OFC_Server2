@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package entities.service;
+package java.entities.service;
 
 import java.util.Set;
 import javax.ws.rs.core.Application;
@@ -30,14 +30,14 @@ public class ApplicationConfig extends Application {
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
      
-        resources.add(entities.service.AdminFacadeREST.class);
-        resources.add(entities.service.ClientFacadeREST.class);
-        resources.add(entities.service.ComentFacadeREST.class);
-        resources.add(entities.service.EventFacadeREST.class);
-        resources.add(entities.service.SponsorFacadeREST.class);
-        resources.add(entities.service.UserFacadeREST.class);
-        resources.add(routine.ExerciseFacadeREST.class);
-        resources.add(routine.RoutineFacadeREST.class);
+        resources.add(java.entities.service.AdminFacadeREST.class);
+        resources.add(java.entities.service.ClientFacadeREST.class);
+        resources.add(java.entities.service.ComentFacadeREST.class);
+        resources.add(java.entities.service.EventFacadeREST.class);
+        resources.add(java.entities.service.SponsorFacadeREST.class);
+        resources.add(java.entities.service.UserFacadeREST.class);
+        resources.add(java.routine.ExerciseFacadeREST.class);
+        resources.add(java.routine.RoutineFacadeREST.class);
     }
    
     

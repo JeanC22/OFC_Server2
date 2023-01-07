@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package routine;
+package java.routine;
 
 import java.io.Serializable;
 import java.util.Set;
@@ -30,6 +30,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name="consultExerciseByName", query="SELECT e FROM Exercise e WHERE e.exercise= :exercise"),
     
     @NamedQuery(name="consultAllExercises", query="SELECT e FROM Exercise e"),
+    
+    @NamedQuery(name= "consultExerciseById", query="SELECT e FROM Exercise e WHERE e.id= :id"),
 })
 @XmlRootElement
 public class Exercise implements Serializable {

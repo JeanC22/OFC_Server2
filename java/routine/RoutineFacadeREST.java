@@ -3,20 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package routine;
+package java.routine;
 
 
-import entities.service.AbstractFacade;
-import exceptions.CreateException;
-import exceptions.DeleteException;
-import exceptions.ReadException;
-import exceptions.UpdateException;
-
+import java.exceptions.CreateException;
+import java.exceptions.DeleteException;
+import java.exceptions.ReadException;
+import java.exceptions.UpdateException;
 import java.util.List;
+
 import java.util.Set;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
-import javax.ejb.Stateless;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.ws.rs.Consumes;
@@ -34,7 +33,6 @@ import javax.ws.rs.core.MediaType;
  *
  * @author Aritz
  */
-@Stateless
 @Path("routine")
 public class RoutineFacadeREST {
     
@@ -43,9 +41,6 @@ public class RoutineFacadeREST {
     @PersistenceContext(unitName = "OFC_ServerWebPU")
     private EntityManager em;
 
-    public RoutineFacadeREST() {
-        
-    }
     
     @EJB
     private RoutineManager ejb;
@@ -58,7 +53,7 @@ public class RoutineFacadeREST {
            ejb.addRoutine(routine);
         } catch (CreateException e) {
             LOGGER.severe(e.getMessage());
-            //throw new  (e.getMessage());
+           throw new InternalServerErrorException(e.getMessage());
         }
     }
 
@@ -70,45 +65,48 @@ public class RoutineFacadeREST {
            ejb.updateRoutine(routine);
         } catch (UpdateException e) {
             LOGGER.severe(e.getMessage());
-            //throw new  (e.getMessage());
+            throw new InternalServerErrorException(e.getMessage());
         }
     }
 
     @DELETE
-    @Path("{id}")
-    public void remove(@PathParam("id") Routine routine) {
+    @Path("{routine}")
+    public void remove(@PathParam("routine") Routine routine) {
         try {
            ejb.deleteRoutine(routine);
         } catch (DeleteException e) {
             LOGGER.severe(e.getMessage());
-            //throw new (e.getMessage());
+            throw new InternalServerErrorException(e.getMessage());
+
         }
     }
 
     @GET
     @Path("name/{name}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public Set<Routine> consultRoutinesByName(@PathParam("name") String name) {
+    public List<Routine> consultRoutinesByName(@PathParam("name") String name) {
+        List<Routine> routine=null;
          try {
-            return (Set<Routine>) ejb.consultRoutineByName(name);
+           routine= ejb.consultRoutineByName(name);
         } catch (ReadException e) {
             LOGGER.severe(e.getMessage());
-           // throw new InternalServerErrorException(e.getMessage());
+           throw new InternalServerErrorException(e.getMessage());
         }
-        return null;
+         return routine;
     }
 
     @GET
     @Path("{id}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public Set<Routine> consultAllClientRoutines(@PathParam("id") Integer id) {
-        
+    public List<Routine> consultAllClientRoutines(@PathParam("id") Integer id) {
+        List<Routine> routine=null;
         try {
-            return (Set<Routine>) ejb.consultAllRoutines(id);
+            routine= ejb.consultAllRoutines(id);
         } catch (ReadException e) {
             LOGGER.severe(e.getMessage());
+            throw new InternalServerErrorException(e.getMessage());
     }
-        return null;
+        return routine;
     }
 
     @GET
@@ -120,14 +118,13 @@ public class RoutineFacadeREST {
         try {
             
            routines= ejb.consultRoutineByExercise(id);
-        } catch (Exception e) {
+        } catch (ReadException e) {
+            LOGGER.severe(e.getMessage());
             throw new InternalServerErrorException(e.getMessage());
         }
         return routines;
     }
 
-    protected EntityManager getEntityManager() {
-        return em;
-    }
+    
     
 }

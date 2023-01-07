@@ -3,28 +3,26 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package routine;
+package java.routine;
 
-import exceptions.CreateException;
-import exceptions.DeleteException;
-import exceptions.ReadException;
+import java.exceptions.CreateException;
+import java.exceptions.DeleteException;
+import java.exceptions.ReadException;
+import java.exceptions.UpdateException;
+import java.util.List;
 import java.util.Set;
-
-import exceptions.UpdateException;
-import javax.ejb.Local;
 
 /**
  *
  * @author Aritz
  */
-@Local
 public interface RoutineManager {
     
-    public Set<Routine> consultRoutineByName(String name) throws ReadException;
+    public List<Routine> consultRoutineByName(String name) throws ReadException;
     
     public Set<Routine> consultRoutineByExercise(Integer id) throws ReadException;
     
-    public Set<Routine> consultAllRoutines(Integer id) throws ReadException;
+    public List<Routine> consultAllRoutines(Integer id) throws ReadException;
     
     public void addRoutine(Routine routine)throws CreateException;
     

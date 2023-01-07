@@ -3,13 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package routine;
+package java.routine;
 
-import exceptions.CreateException;
-import exceptions.DeleteException;
-import exceptions.ReadException;
-
-import exceptions.UpdateException;
+import java.exceptions.CreateException;
+import java.exceptions.DeleteException;
+import java.exceptions.ReadException;
+import java.exceptions.UpdateException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -27,20 +26,19 @@ public class EJBRoutineManager implements RoutineManager{
      * EntityManager for DataModelExamplePU persistence unit.
      */
    
-    private Set<Routine> routine;
-    
     @PersistenceContext(unitName = "OFC_ServerWebPU")
     private EntityManager em;
-    
+         
     @Override
-    public Set<Routine> consultRoutineByName(String name) throws ReadException {
-      
+    public List<Routine> consultRoutineByName(String name) throws ReadException {
+       List<Routine> routines;
         try {
-            routine= (Set<Routine>) em.find(Routine.class, name);
-            return routine;
+            routines = em.createNamedQuery("consultRoutineByName").getResultList();
+           
         } catch (Exception e) {
             throw new ReadException(e.getMessage());
         }
+         return routines;
     }
 
     @Override
@@ -62,14 +60,15 @@ public class EJBRoutineManager implements RoutineManager{
     }
 
     @Override
-    public Set<Routine> consultAllRoutines(Integer id) throws ReadException {
+    public List<Routine> consultAllRoutines(Integer id) throws ReadException {
+         List<Routine> routines= null;
         try {
-             routine=(Set<Routine>) (Routine) em.createNamedQuery("findAllRoutines").setParameter("id", id).getResultList();
-             return routine;
+             routines= em.createNamedQuery("findAllRoutines").setParameter("id", id).getResultList();
+             
         } catch (Exception e) {
             throw new ReadException(e.getMessage());
         }
-       
+       return routines;
     }
 
     @Override

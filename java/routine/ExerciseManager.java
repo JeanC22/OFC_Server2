@@ -3,25 +3,25 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package routine;
+package java.routine;
 
-import exceptions.CreateException;
-import exceptions.DeleteException;
-import exceptions.ReadException;
-import exceptions.UpdateException;
-import java.util.Set;
-import javax.ejb.Local;
+import java.exceptions.CreateException;
+import java.exceptions.DeleteException;
+import java.exceptions.ReadException;
+import java.exceptions.UpdateException;
+import java.util.List;
 
 /**
  *
  * @author Aritz
  */
-//@Local
 public interface ExerciseManager {
+
+    public Exercise consultExerciseById(Long id)throws ReadException;
     
-    public Set<Exercise> consultExerciseByName(String name) throws ReadException;
+    public List<Exercise> consultExerciseByName(String name) throws ReadException;
     
-    public Set<Exercise> consultAllExercises() throws ReadException;
+    public List<Exercise> consultAllExercises() throws ReadException;
     
     public void addExercise(Exercise exercise)throws CreateException;
     

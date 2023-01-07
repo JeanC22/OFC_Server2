@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package exceptions;
+package java.exceptions;
 
 /**
  *
@@ -16,5 +16,9 @@ public class CreateException extends Exception {
      * message.
      */
     public CreateException() {
+    }
+
+    public CreateException(String message) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

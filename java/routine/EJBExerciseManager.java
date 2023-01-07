@@ -3,13 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package routine;
+package java.routine;
 
-import exceptions.CreateException;
-import exceptions.DeleteException;
-import exceptions.ReadException;
-import exceptions.UpdateException;
-import java.util.Set;
+import java.exceptions.CreateException;
+import java.exceptions.DeleteException;
+import java.exceptions.ReadException;
+import java.exceptions.UpdateException;
+import java.util.List;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -17,30 +18,49 @@ import javax.persistence.PersistenceContext;
  *
  * @author Aritz
  */
+@Stateless
 public class EJBExerciseManager implements ExerciseManager{
 
-     private Set<Exercise> exercise;
     
     @PersistenceContext(unitName = "OFC_ServerWebPU")
     private EntityManager em;
-    @Override
-    public Set<Exercise> consultExerciseByName(String name) throws ReadException {
+    
+
+    
+     @Override
+    public Exercise consultExerciseById(Long id) throws ReadException {
+        List<Exercise> exercise= null;
          try {
-            exercise= (Set<Exercise>) em.find(Exercise.class, name);
-            return exercise;
+            exercise= em.createNamedQuery("consultExerciseById").setParameter("id", id).getResultList();
+           
         } catch (Exception e) {
             throw new ReadException(e.getMessage());
         }
+          return (Exercise) exercise;
+    }
+    
+    @Override
+    public List<Exercise> consultExerciseByName(String name) throws ReadException {
+         List<Exercise> exercise= null;
+         try {
+            exercise= em.createNamedQuery("consultExerciseByName").setParameter("name", name).getResultList();
+           
+        } catch (Exception e) {
+            throw new ReadException(e.getMessage());
+        }
+          return exercise;
     }
 
     @Override
-    public Set<Exercise> consultAllExercises() throws ReadException {
+    public List<Exercise> consultAllExercises() throws ReadException {
+        List<Exercise> exercise= null;
           try {
-             exercise=(Set<Exercise>) (Exercise) em.createNamedQuery("findAllExercises").getResultList();
-             return exercise;
+             exercise=  em.createNamedQuery("findAllExercises").getResultList();
+             
         } catch (Exception e) {
             throw new ReadException(e.getMessage());
         }
+          return exercise;
     }
 
     @Override
@@ -71,7 +91,4 @@ public class EJBExerciseManager implements ExerciseManager{
             throw new UpdateException(e.getMessage());
         }
     }
-
-
-    
 }

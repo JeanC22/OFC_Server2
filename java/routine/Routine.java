@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package routine;
+package java.routine;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import entities.Client;
+import java.entities.Client;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -36,7 +36,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name="consultRoutineByName", query="SELECT r FROM Routine r WHERE r.name= :name"),
     
     @NamedQuery(name="consultAllRoutines", query="SELECT r FROM Routine r"),
-    //@NamedQuery(name="consultRoutineByExercise", query="SELECT r FROM Routine r WHERE r.id = (SELECT re.ROUTINES_id FROM routine_exercises re WHERE re.ejercicios_id= :id)"),
     
     @NamedQuery(name="consultAllClientRoutines", query="SELECT r FROM Routine r WHERE r.clie= :clie"),
 })
