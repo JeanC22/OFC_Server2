@@ -5,10 +5,8 @@
  */
 package comments;
 
-import comments.Coment;
-import comments.CommentsMannager;
-import java.util.HashSet;
-import java.util.Set;
+import entities.Client;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -22,23 +20,28 @@ public class EJBComentManager implements CommentsMannager {
 
     @PersistenceContext(unitName = "OFC_ServerWebPU")
     private EntityManager em;
-    private Set<Coment> coments = new HashSet<>();
 
     @Override
     public void createComent(Coment coment) {
         try {
             em.persist(coment);
         } catch (Exception e) {
-            //add exception
+            System.out.println(e.getMessage());
         }
     }
 
     @Override
-    public void deleteComent(Long id) {
+    public void deleteComent(Long clientID, Long evetID) {
         try {
-            em.remove(em.merge(id));
+            System.out.println(clientID + "eventid " + evetID);
+            Coment coment = new Coment();
+            ComentId comentid = new ComentId();
+            comentid.setClient_id(clientID);
+            comentid.setEvent_id(evetID);
+            coment.setComentid(comentid);  
+            em.remove(em.merge(coment));
         } catch (Exception e) {
-            //add exception
+            System.out.println(e.getMessage());
         }
     }
 
@@ -55,9 +58,10 @@ public class EJBComentManager implements CommentsMannager {
     }
 
     @Override
-    public Set<Coment> getAllComents() {
+    public List<Coment> getAllComents() {
+        List<Coment> coments = null;
         try {
-            coments = (Set<Coment>) em.createNamedQuery("coments.findAll")
+            coments = em.createNamedQuery("coments.findAll")
                     .getResultList();
         } catch (Exception e) {
             //add exception
@@ -66,10 +70,23 @@ public class EJBComentManager implements CommentsMannager {
     }
 
     @Override
-    public Set<Coment> findBySubject(String subject) {
+    public List<Coment> findBySubject(String subject) {
+        List<Coment> coments = null;
         try {
-            coments = (Set<Coment>) em.createNamedQuery("coments.findBySubject")
-                    .setParameter("subject", em.find(Coment.class, subject))
+            coments = em.createNamedQuery("coments.findBySubject")
+                    .setParameter("subject", subject).getResultList();
+        } catch (Exception e) {
+            //add exception
+        }
+        return coments;
+    }
+
+    @Override
+    public List<Coment> findOrderByMoreRecent() {
+        List<Coment> coments = null;
+
+        try {
+            coments = em.createNamedQuery("coments.OrderByMoreRecent")
                     .getResultList();
         } catch (Exception e) {
             //add exception
@@ -78,9 +95,11 @@ public class EJBComentManager implements CommentsMannager {
     }
 
     @Override
-    public Set<Coment> findOrderByMoreRecent() {
+    public List<Coment> findOrderByLastPublicate() {
+        List<Coment> coments = null;
+
         try {
-            coments = (Set<Coment>) em.createNamedQuery("coments.OrderByMoreRecent")
+            coments = em.createNamedQuery("coments.OrderByLastPublicate")
                     .getResultList();
         } catch (Exception e) {
             //add exception
@@ -89,9 +108,11 @@ public class EJBComentManager implements CommentsMannager {
     }
 
     @Override
-    public Set<Coment> findOrderByLastPublicate() {
+    public List<Coment> findOrderByMoreRate() {
+        List<Coment> coments = null;
+
         try {
-            coments = (Set<Coment>) em.createNamedQuery("coments.OrderByLastPublicate")
+            coments = em.createNamedQuery("coments.OrderByMoreRate")
                     .getResultList();
         } catch (Exception e) {
             //add exception
@@ -100,9 +121,11 @@ public class EJBComentManager implements CommentsMannager {
     }
 
     @Override
-    public Set<Coment> findOrderByMoreRate() {
+    public List<Coment> findOrderByLessRate() {
+        List<Coment> coments = null;
+
         try {
-            coments = (Set<Coment>) em.createNamedQuery("coments.OrderByMoreRate")
+            coments = em.createNamedQuery("coments.OrderByLessRate")
                     .getResultList();
         } catch (Exception e) {
             //add exception
@@ -111,9 +134,12 @@ public class EJBComentManager implements CommentsMannager {
     }
 
     @Override
-    public Set<Coment> findOrderByLessRate() {
+    public List<Coment> findMyComments(Long clientID) {
+        List<Coment> coments = null;
+
         try {
-            coments = (Set<Coment>) em.createNamedQuery("coments.OrderByLessRate")
+            coments = em.createNamedQuery("MyComents")
+                    .setParameter("clientID", clientID)
                     .getResultList();
         } catch (Exception e) {
             //add exception
@@ -121,102 +147,6 @@ public class EJBComentManager implements CommentsMannager {
         return coments;
     }
 
-    @Override
-    public Set<Coment> findMyComments(Long id) {
-        try {
-            coments = (Set<Coment>) em.createNamedQuery("MyComents")
-                    .setParameter("comClie", em.find(Coment.class, id))
-                    .getResultList();
-        } catch (Exception e) {
-            //add exception
-        }
-        return coments;
-    }
-
-    @Override
-    public Set<Coment> findMyComentOrderByMoreRecent(Long id) {
-        try {
-            coments = (Set<Coment>) em.createNamedQuery("MyComents.OrderByMoreRecent")
-                    .setParameter("comClie", em.find(Coment.class, id))
-                    .getResultList();
-        } catch (Exception e) {
-            //add exception
-        }
-        return coments;
-    }
-
-    @Override
-    public Set<Coment> findMyComentOrderBylastPublication(Long id) {
-        try {
-            coments = (Set<Coment>) em.createNamedQuery("MyComents.OrderBylastPublication")
-                    .setParameter("comClie", em.find(Coment.class, id))
-                    .getResultList();
-        } catch (Exception e) {
-            //add exception
-        }
-        return coments;
-    }
-
-    @Override
-    public Set<Coment> findMyComentOrderByMoreRate(Long id) {
-        try {
-            coments = (Set<Coment>) em.createNamedQuery("MyComents.OrderByMoreRate")
-                    .setParameter("comClie", id)
-                    .getResultList();
-        } catch (Exception e) {
-            //add exception
-        }
-        return coments;
-    }
-
-    @Override
-    public Set<Coment> findMyComentOrderByLessRate(Long id) {
-        try {
-            coments = (Set<Coment>) em.createNamedQuery("MyComents.OrderByLessRate")
-                    .setParameter("comClie", em.find(Coment.class, id))
-                    .getResultList();
-        } catch (Exception e) {
-            //add exception
-        }
-        return coments;
-    }
-
-    @Override
-    public Set<Coment> findMyPrivateComents(Long id) {
-        try {
-            coments = (Set<Coment>) em.createNamedQuery("MyComents.Private")
-                    .setParameter("comClie", em.find(Coment.class, id))
-                    .getResultList();
-        } catch (Exception e) {
-            //add exception
-        }
-        return coments;
-    }
-
-    @Override
-    public Set<Coment> findMyPublicComents(Long id) {
-        try {
-            coments = (Set<Coment>) em.createNamedQuery("MyComents.Public")
-                    .setParameter("comClie", em.find(Coment.class, id))
-                    .getResultList();
-        } catch (Exception e) {
-            //add exception
-        }
-        return coments;
-    }
-
-    @Override
-    public Set<Coment> findMyCommentByEvent(Long id) {
-        try {
-            coments = (Set<Coment>) em.createNamedQuery("MyComents.ByEvent")
-                    .setParameter("comClie", em.find(Coment.class, id))
-                    .getResultList();
-        } catch (Exception e) {
-            //add exception
-        }
-        return coments;
-    }
-
-    
+  
 
 }
