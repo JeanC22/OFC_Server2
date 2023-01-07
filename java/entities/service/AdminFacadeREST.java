@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package java.entities.service;
+package entities.service;
 
-import java.entities.Admin;
+import entities.Admin;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;

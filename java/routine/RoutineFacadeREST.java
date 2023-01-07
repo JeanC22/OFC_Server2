@@ -3,20 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package java.routine;
+package routine;
 
 
-import java.exceptions.CreateException;
-import java.exceptions.DeleteException;
-import java.exceptions.ReadException;
-import java.exceptions.UpdateException;
+import exceptions.CreateException;
+import exceptions.DeleteException;
+import exceptions.ReadException;
+import exceptions.UpdateException;
 import java.util.List;
 
 import java.util.Set;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
-
-import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -37,12 +35,9 @@ import javax.ws.rs.core.MediaType;
 public class RoutineFacadeREST {
     
     private static final Logger LOGGER = Logger.getLogger("routine.RoutineFacadeREST");
-
-    @PersistenceContext(unitName = "OFC_ServerWebPU")
-    private EntityManager em;
-
     
     @EJB
+    @PersistenceContext(unitName = "OFC_ServerWebPU")
     private RoutineManager ejb;
     
 

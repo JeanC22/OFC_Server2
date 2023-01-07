@@ -3,16 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package java.routine;
+package routine;
 
-import java.exceptions.CreateException;
-import java.exceptions.DeleteException;
-import java.exceptions.ReadException;
-import java.exceptions.UpdateException;
+import exceptions.CreateException;
+import exceptions.DeleteException;
+import exceptions.ReadException;
+import exceptions.UpdateException;
 import java.util.List;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
-import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -34,11 +33,10 @@ public class ExerciseFacadeREST {
 
     private static final Logger LOGGER = Logger.getLogger("routine.ExerciseFacadeREST");
 
-    @PersistenceContext(unitName = "OFC_ServerWebPU")
-    private EntityManager em;
     
         
     @EJB
+    @PersistenceContext(unitName = "OFC_ServerWebPU")
     private ExerciseManager ejb;
 
 
@@ -77,9 +75,9 @@ public class ExerciseFacadeREST {
     }
 
     @GET
-    @Path("{id}")
+    @Path("consultExerciseById/{id}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public Exercise find(@PathParam("id") Long id) {
+    public Exercise consultExerciseById(@PathParam("id") Long id) {
         Exercise exercise=null;
         try {
             exercise= ejb.consultExerciseById(id);
@@ -91,8 +89,9 @@ public class ExerciseFacadeREST {
     }
 
     @GET
+    @Path("consultAllExercises/")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<Exercise> findAll() {
+    public List<Exercise> consultAllExercises() {
         List<Exercise> exercise=null;
         try {
             exercise= (List<Exercise>) ejb.consultAllExercises();
@@ -104,9 +103,9 @@ public class ExerciseFacadeREST {
     }
 
     @GET
-    @Path("{name}")
+    @Path("consultExerciseByName/{name}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<Exercise> findRange(@PathParam("name") String name) {
+    public List<Exercise> consultExerciseByName(@PathParam("name") String name) {
        List<Exercise> exercise=null;
         try {
             exercise= (List<Exercise>) ejb.consultExerciseByName(name);

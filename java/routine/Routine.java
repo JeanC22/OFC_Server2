@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package java.routine;
+package routine;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import java.entities.Client;
+import entities.Client;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
