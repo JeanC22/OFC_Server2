@@ -3,16 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package OFC_Server2.java.event;
+package event;
 
 
-import OFC_Server2.java.exceptions.*;
+import exceptions.*;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 /**
- *
- * @author 2dam
+ * This class is the interface to the EJBEventManager methods.
+ * @author iker
  */
 
 public interface EventManager {
@@ -21,15 +22,15 @@ public interface EventManager {
     
     public void updateEvent(Event event) throws UpdateException;
     
-    public void deleteEvent(Long id)throws DeleteException;
+    public void deleteEvent(Event event)throws DeleteException;
     
-    public Set<Event> findEvents() throws ReadException;
+    public List<Event> findEvents() throws ReadException;
+    
+    public Event findEventById(Long id) throws ReadException;
     
     public Event findEventByName(String name) throws ReadException;
     
-    public Set<Event> findEventByActivity(String activity) throws ReadException;
+    public List<Event> findEventByActivity(String activity) throws ReadException;
     
-    public Set<Event> findEventByDate(Date date) throws ReadException;
-    
-    //public Set<Event> findEventByUser(Event event);
+    public List<Event> findEventByDate(Date date) throws ReadException;
 }

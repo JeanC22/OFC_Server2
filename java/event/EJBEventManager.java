@@ -3,116 +3,172 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package OFC_Server2.java.event;
+package event;
 
-import OFC_Server2.java.entities.User;
-import OFC_Server2.java.exceptions.*;
+import usuariio.User;
+import exceptions.*;
 import java.util.Date;
-import java.util.Set;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 /**
+ * This class is in charge of managing the CRUD of events.
  *
- * @author 2dam
+ * @author iker
  */
 @Stateless
-public class EJBEventManager implements EventManager{
+public class EJBEventManager implements EventManager {
 
     @PersistenceContext(unitName = "OFC_ServerWebPU")
     private EntityManager em;
-    
+
+    /**
+     * This method will create an event in the database.
+     *
+     * @param event we will send it to insert an event in the DB
+     * @throws CreateException we will use it to control possible errors
+     */
     @Override
-    public void createEvent(Event event) throws CreateException{
+    public void createEvent(Event event) throws CreateException {
         User u;
-        try{
-          em.persist(event);
-        }catch(Exception e){
+        try {
+            em.persist(event);
+        } catch (Exception e) {
             throw new CreateException(e.getMessage());
         }
     }
 
     /**
+     * The method will modify or create if a DB event does not exist.
      *
-     * @param event
-     * @throws UpdateException
+     * @param event this will be the parameter that we want to insert or modify
+     * in the DB
+     * @throws UpdateException we will use it to control possible errors
      */
     @Override
-    public void updateEvent(Event event) throws UpdateException{
-        try{
-            em.merge(event);
-        }catch(Exception e){
+    public void updateEvent(Event event) throws UpdateException {
+        try {
+            if (!em.contains(event)) {
+                em.merge(event);
+                em.flush();
+            }
+        } catch (Exception e) {
             throw new UpdateException(e.getMessage());
         }
-        
+
     }
 
+    /**
+     * The method is in charge of deleting from the DB the event that we send it
+     *
+     * @param event is the parameter we will send to delete it from the DB.
+     * @throws DeleteException we will use it to control possible errors
+     */
     @Override
-    public void deleteEvent(Long id) throws DeleteException{
-        try{
-            em.remove(id);
-        }catch(Exception e){
+    public void deleteEvent(Event event) throws DeleteException {
+        try {
+            em.remove(em.merge(event));
+        } catch (Exception e) {
             throw new DeleteException(e.getMessage());
         }
-        
+
     }
 
+    /**
+     * The method performs a query of all the events in our database.
+     *
+     * @return events returns a list of all events found in the database.
+     * @throws ReadException we will use it to control possible errors
+     */
     @Override
-    public Set<Event> findEvents() throws ReadException{
-        Set<Event> events;
+    public List<Event> findEvents() throws ReadException {
+        List<Event> events;
         try {
-            events = (Set<Event>) em.createNamedQuery("findEvents").getResultList();
+            events = em.createNamedQuery("findEvents").getResultList();
         } catch (Exception e) {
             throw new ReadException(e.getMessage());
         }
-        
+
         return events;
     }
 
+    /**
+     * This method performs a search for an event by its id in the DB.
+     *
+     * @param id is the parameter we send to perform the search
+     * @return event is the object that returns the query
+     * @throws ReadException we will use it to control possible errors
+     */
     @Override
-    public Event findEventByName(String name) throws ReadException{
-        Event ev;
+    public Event findEventById(Long id) throws ReadException {
+        Event event;
         try {
-           ev = em.find(Event.class,name);
+            event = em.find(Event.class, id);
         } catch (Exception e) {
             throw new ReadException(e.getMessage());
         }
-       
+        return event;
+    }
+
+    /**
+     * This method performs a search for an event by its name in the DB.
+     *
+     * @param name is the parameter we send to perform the search
+     * @return ev is the object that returns the query
+     * @throws ReadException we will use it to control possible errors
+     */
+    @Override
+    public Event findEventByName(String name) throws ReadException {
+        Event ev;
+        List<Event> events;
+        try {
+            events = em.createNamedQuery("findEventByName").setParameter("name", name).getResultList();
+            ev = events.get(0);
+        } catch (Exception e) {
+            throw new ReadException(e.getMessage());
+        }
+
         return ev;
     }
 
+    /**
+     * This method performs a search for an event by its activity in the DB.
+     *
+     * @param activity is the parameter we send to perform the search
+     * @return events is a list of events found with the same activity.
+     * @throws ReadException we will use it to control possible errors
+     */
     @Override
-    public Set<Event> findEventByActivity(String activity) throws ReadException{
-        Set<Event> events;
+    public List<Event> findEventByActivity(String activity) throws ReadException {
+        List<Event> events;
         try {
-             events =  (Set<Event>) em.createNamedQuery("findEventByActivity").setParameter("activity", activity).getResultList();
+            events = em.createNamedQuery("findEventByActivity").setParameter("activity", activity).getResultList();
         } catch (Exception e) {
             throw new ReadException(e.getMessage());
         }
-       
+
         return events;
-        
+
     }
 
+    /**
+     * This method performs a search for an event by its date in the DB
+     *
+     * @param date is the parameter we send to perform the search
+     * @return events is a list of events found with the same date.
+     * @throws ReadException we will use it to control possible errors
+     */
     @Override
-    public Set<Event> findEventByDate(Date date) throws ReadException{
-        Set<Event> events;
+    public List<Event> findEventByDate(Date date) throws ReadException {
+        List<Event> events;
         try {
-            events = (Set<Event>) em.createNamedQuery("findEventByDate").setParameter("date",date).getResultList();
+            events = em.createNamedQuery("findEventByDate").setParameter("date", date).getResultList();
         } catch (Exception e) {
             throw new ReadException(e.getMessage());
         }
-        
-        return events;
-    }
-/*
-    @Override
-    public Set<Event> findEventByUser(Event event) {
-        Set<Event> events = null;
-        
-        return events;
-    }
-  */  
 
+        return events;
+    }
 }

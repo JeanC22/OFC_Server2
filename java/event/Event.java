@@ -3,14 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package OFC_Server2.java.event;
+package event;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import OFC_Server2.java.entities.Admin;
-import OFC_Server2.java.entities.Client;
-import OFC_Server2.java.entities.Coment;
-import OFC_Server2.java.entities.Sponsor;
+import usuariio.Admin;
+import usuariio.Client;
+import entities.Coment;
+import entities.Sponsor;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
@@ -31,10 +31,9 @@ import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-
-//select e from event e where e.id in(select ec.events_id from event_client ec where ec.clients_id = ec.client_id)
 /**
- *
+ * This class is where the Entities and their relationships are declared, 
+ * as well as the queries to be performed in the DB.
  * @author Iker
  */
 @Entity
@@ -47,8 +46,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "findEventByActivity", query = "select e from Event e where e.activity = :activity"),
     
     @NamedQuery(name = "findEventByDate", query = "select e from Event e where e.date = :date"),
-        
-    @NamedQuery(name = "findEventByUser", query = "select e from Event e where user = :user"),
        
 })
 
