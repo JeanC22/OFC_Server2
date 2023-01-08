@@ -53,7 +53,7 @@ import javax.xml.bind.annotation.XmlRootElement;
                 query="SELECT c FROM Coment c ORDER BY c.valoration ASC"),
  //searches by specific user    
     @NamedQuery(name="MyComents",
-                query="SELECT c FROM Coment c WHERE c.client.id = :clientID"),
+                query="SELECT c FROM Coment c WHERE c.comClie.id = :clientID"),
   
 })
 @XmlRootElement
@@ -82,9 +82,9 @@ public class Coment implements Serializable {
     private String subject;
     
     @MapsId("client_id")
-    @ManyToOne 
+    @ManyToOne (fetch = FetchType.EAGER )
     @JoinColumn(name="comClie_id")
-    private Client client;
+    private Client comClie;
     
     @MapsId("event_id")
     @ManyToOne(fetch = FetchType.EAGER ) 
@@ -148,11 +148,11 @@ public class Coment implements Serializable {
     }
     
     public Client getComClie() {
-        return client;
+        return comClie;
     }
 
     public void setComClie(Client client) {
-        this.client = client;
+        this.comClie = client;
     }
 
     public Event getEvent() {
@@ -165,7 +165,7 @@ public class Coment implements Serializable {
 
     @Override
     public String toString() {
-        return "Coment{" + "comentid=" + comentid + ", publication_date=" + publication_date + ", modification_date=" + modification_date + ", message=" + message + ", valoration=" + valoration + ", privacity=" + privacity + ", subject=" + subject + ", comClie=" + client + ", event=" + event + '}';
+        return "Coment{" + "comentid=" + comentid + ", publication_date=" + publication_date + ", modification_date=" + modification_date + ", message=" + message + ", valoration=" + valoration + ", privacity=" + privacity + ", subject=" + subject + ", comClie=" + comClie + ", event=" + event + '}';
     }
 
     @Override
@@ -178,7 +178,7 @@ public class Coment implements Serializable {
         hash = 71 * hash + Objects.hashCode(this.valoration);
         hash = 71 * hash + Objects.hashCode(this.privacity);
         hash = 71 * hash + Objects.hashCode(this.subject);
-        hash = 71 * hash + Objects.hashCode(this.client);
+        hash = 71 * hash + Objects.hashCode(this.comClie);
         hash = 71 * hash + Objects.hashCode(this.event);
         return hash;
     }
@@ -216,7 +216,7 @@ public class Coment implements Serializable {
         if (!Objects.equals(this.privacity, other.privacity)) {
             return false;
         }
-        if (!Objects.equals(this.client, other.client)) {
+        if (!Objects.equals(this.comClie, other.comClie)) {
             return false;
         }
         return Objects.equals(this.event, other.event);
