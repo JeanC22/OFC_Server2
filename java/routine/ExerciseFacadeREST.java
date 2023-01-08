@@ -34,22 +34,35 @@ public class ExerciseFacadeREST {
     private static final Logger LOGGER = Logger.getLogger("routine.ExerciseFacadeREST");
 
     
-        
     @EJB
     @PersistenceContext(unitName = "OFC_ServerWebPU")
     private ExerciseManager ejb;
 
 
+    /**
+     * This method will call the addExercise method of the interface to create 
+     * an event in the database and in case of receiving an error we will send
+     * an internal server error.
+     * @param exercise the new exercise
+     */
     @POST
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public void create(Exercise exercise) {
        try {
            ejb.addExercise(exercise);
         } catch (CreateException e) {
+             LOGGER.severe(e.getMessage());
           throw new InternalServerErrorException(e.getMessage());
         }
     }
 
+    /**
+     * This method is used to edit the data in a database and in case the data 
+     * does not exist to create it and in case of receiving an error we will
+     * send an internal server error.
+     * @param id Client id
+     * @param exercise updated exercise
+     */
     @PUT
     @Path("{id}")
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
@@ -62,6 +75,11 @@ public class ExerciseFacadeREST {
         }
     }
 
+    /**
+     * This method is used to remove data from the database and in case of 
+     * receiving an error we will send an internal server error
+     * @param exercise The exercise to be deleted
+     */
     @DELETE
     @Path("{id}")
     public void remove(@PathParam("id") Exercise exercise) {
@@ -74,6 +92,11 @@ public class ExerciseFacadeREST {
         }
     }
 
+    /**
+     * This method searches for exercises with a specific id
+     * @param id the exercise id
+     * @return Returns an exercise
+     */
     @GET
     @Path("consultExerciseById/{id}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
@@ -88,6 +111,10 @@ public class ExerciseFacadeREST {
         return exercise;
     }
 
+    /**
+     * This method searches for all exercises
+     * @return Return a list of exercises
+     */
     @GET
     @Path("consultAllExercises/")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
@@ -102,13 +129,18 @@ public class ExerciseFacadeREST {
         return exercise;
     }
 
+    /**
+     * This method searches for an exercise with a specific name
+     * @param name the name of the exercise
+     * @return Return an exercise list
+     */
     @GET
     @Path("consultExerciseByName/{name}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<Exercise> consultExerciseByName(@PathParam("name") String name) {
-       List<Exercise> exercise=null;
+    public Exercise consultExerciseByName(@PathParam("name") String name) {
+       Exercise exercise=null;
         try {
-            exercise= (List<Exercise>) ejb.consultExerciseByName(name);
+            exercise=  (Exercise) ejb.consultExerciseByName(name);
         } catch (ReadException e) {
             LOGGER.severe(e.getMessage());
             throw new InternalServerErrorException(e.getMessage());

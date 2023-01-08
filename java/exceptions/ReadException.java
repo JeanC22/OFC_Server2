@@ -15,7 +15,7 @@ public class ReadException extends Exception{
     }
 
     public ReadException(String message) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+      
     }
     
 }

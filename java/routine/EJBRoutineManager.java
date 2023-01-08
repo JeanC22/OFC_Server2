@@ -25,20 +25,19 @@ public class EJBRoutineManager implements RoutineManager{
  /**
      * EntityManager for DataModelExamplePU persistence unit.
      */
-   
     @PersistenceContext(unitName = "OFC_ServerWebPU")
     private EntityManager em;
          
     @Override
-    public List<Routine> consultRoutineByName(String name) throws ReadException {
-       List<Routine> routines;
+    public Routine consultRoutineByName(String name) throws ReadException {
+       Routine routine;
         try {
-            routines = em.createNamedQuery("consultRoutineByName").getResultList();
+            routine = (Routine) em.createNamedQuery("consultRoutineByName");
            
         } catch (Exception e) {
             throw new ReadException(e.getMessage());
         }
-         return routines;
+         return routine;
     }
 
     @Override
@@ -60,7 +59,7 @@ public class EJBRoutineManager implements RoutineManager{
     }
 
     @Override
-    public List<Routine> consultAllRoutines(Integer id) throws ReadException {
+    public List<Routine> consultAllClientRoutines(Integer id) throws ReadException {
          List<Routine> routines= null;
         try {
              routines= em.createNamedQuery("findAllRoutines").setParameter("id", id).getResultList();

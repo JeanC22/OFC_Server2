@@ -40,10 +40,10 @@ public class EJBExerciseManager implements ExerciseManager{
     }
     
     @Override
-    public List<Exercise> consultExerciseByName(String name) throws ReadException {
-         List<Exercise> exercise= null;
+    public Exercise consultExerciseByName(String name) throws ReadException {
+         Exercise exercise= null;
          try {
-            exercise= em.createNamedQuery("consultExerciseByName").setParameter("name", name).getResultList();
+            exercise= (Exercise) em.createNamedQuery("consultExerciseByName").setParameter("name", name);
            
         } catch (Exception e) {
             throw new ReadException(e.getMessage());

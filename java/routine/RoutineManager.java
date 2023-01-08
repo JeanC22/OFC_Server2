@@ -18,16 +18,59 @@ import java.util.Set;
  */
 public interface RoutineManager {
     
-    public List<Routine> consultRoutineByName(String name) throws ReadException;
-    
+    /**
+     * This method searches for a routine by name
+     * 
+     * @param name the name of the exercise
+     * @return Returns a routine
+     * @throws ReadException It will be throwed when there is an error in 
+     * reading the data.
+     */
+    public Routine consultRoutineByName(String name) throws ReadException;
+    /**
+     * This method searches for a routine by id
+     * 
+     * @param id Exercise id
+     * @return Returns a list of routines
+     * @throws ReadException It will be throwed when there is an error in 
+     * reading the data.
+     */
     public Set<Routine> consultRoutineByExercise(Integer id) throws ReadException;
     
-    public List<Routine> consultAllRoutines(Integer id) throws ReadException;
+    /**
+     * This method searches all the routines of a client
+     * 
+     * @param id Client id
+     * @return Returns a list of routines
+     * @throws ReadException It will be throwed when there is an error in 
+     * reading the data.
+     */
+    public List<Routine> consultAllClientRoutines(Integer id) throws ReadException;
     
+    /**
+     * This method is used to edit the data in a database and in case the data 
+     * does not exist to create it
+     * @param routine The routine to be created
+     * @throws CreateException It will be launched when there is an error when
+     * creating an routine.
+     */
     public void addRoutine(Routine routine)throws CreateException;
     
+    /**
+     * This method is used to remove data from the database
+     * @param routine The routine to be deleted
+     * @throws DeleteException It will be launched when there is an error when
+     * deleting an routine.
+     */
     public void deleteRoutine(Routine routine) throws DeleteException;
     
+    /**
+     * This method is used to edit the data in a database and in case the data 
+     * does not exist to create it
+     * @param routine The routine to be updated
+     * @throws UpdateException It will be launched when there is an error when 
+     * updating an routine.
+     */
     public void updateRoutine(Routine routine) throws UpdateException;
 
 }

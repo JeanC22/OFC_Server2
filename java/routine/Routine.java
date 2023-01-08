@@ -65,7 +65,7 @@ public class Routine implements Serializable {
     private Client clie;
 
     /**
-     * @associates <{ofc_uml.Ejercicio}>
+     * @associates 
      */
     @ManyToMany
     @JoinTable(name="routine_exercises", schema="OFC_DB")

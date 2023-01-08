@@ -41,6 +41,12 @@ public class RoutineFacadeREST {
     private RoutineManager ejb;
     
 
+    /**
+     * This method will call the addRoutine method of the interface to create 
+     * an event in the database and in case of receiving an error we will send
+     * an internal server error.
+     * @param routine the new routine
+     */
     @POST
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public void create(Routine routine){
@@ -52,18 +58,27 @@ public class RoutineFacadeREST {
         }
     }
 
+    /**
+     * This method is used to edit the data in a database and in case the data 
+     * does not exist to create it and in case of receiving an error we will
+     * send an internal server error.
+     * @param routine updated routine
+     */
     @PUT
-    @Path("{id}")
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void edit(@PathParam("id") Integer id, Routine routine) {
-     try {
+    public void edit(Routine routine) {
+        try {
            ejb.updateRoutine(routine);
         } catch (UpdateException e) {
             LOGGER.severe(e.getMessage());
             throw new InternalServerErrorException(e.getMessage());
         }
     }
-
+    /**
+     * This method is used to remove data from the database and in case of 
+     * receiving an error we will send an internal server error
+     * @param routine the routine that will be deleted
+     */
     @DELETE
     @Path("{routine}")
     public void remove(@PathParam("routine") Routine routine) {
@@ -76,11 +91,16 @@ public class RoutineFacadeREST {
         }
     }
 
+    /**
+     * This method looks for the routine that has a specific name
+     * @param name the routine name
+     * @return Returns a routine
+     */
     @GET
     @Path("name/{name}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<Routine> consultRoutinesByName(@PathParam("name") String name) {
-        List<Routine> routine=null;
+    public Routine consultRoutinesByName(@PathParam("name") String name) {
+        Routine routine;
          try {
            routine= ejb.consultRoutineByName(name);
         } catch (ReadException e) {
@@ -90,13 +110,18 @@ public class RoutineFacadeREST {
          return routine;
     }
 
+    /**
+     * This method searches all the routines of a client.
+     * @param id Client id
+     * @return Returns a list of routines
+     */
     @GET
     @Path("{id}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public List<Routine> consultAllClientRoutines(@PathParam("id") Integer id) {
         List<Routine> routine=null;
         try {
-            routine= ejb.consultAllRoutines(id);
+            routine= ejb.consultAllClientRoutines(id);
         } catch (ReadException e) {
             LOGGER.severe(e.getMessage());
             throw new InternalServerErrorException(e.getMessage());
@@ -104,6 +129,12 @@ public class RoutineFacadeREST {
         return routine;
     }
 
+    /**
+     * This method searches for all routines in which there is a specific 
+     * exercise.
+     * @param id the exercise id
+     * @return Returns a list of routines
+     */
     @GET
     @Path("exercise/{id}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
