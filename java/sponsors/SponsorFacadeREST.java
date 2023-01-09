@@ -5,8 +5,13 @@
  */
 package sponsors;
 
+import exceptions.CreateException;
+import exceptions.DeleteException;
+import exceptions.ReadException;
+import exceptions.UpdateException;
+import javax.ws.rs.InternalServerErrorException;
 import java.util.Date;
-import java.util.Set;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -30,7 +35,7 @@ public class SponsorFacadeREST {
     @EJB
     private SponsorManager ejb;
     
-    /**
+     /**
      * POST method to create Sponsor
      * @param entity The Sponsor object
      */
@@ -39,7 +44,8 @@ public class SponsorFacadeREST {
     public void create(Sponsor entity) {
         try {
             ejb.createSponsor(entity);
-        } catch (Exception e) {
+        } catch (CreateException c) {
+            throw new InternalServerErrorException(c.getMessage());
         }
             
     }
@@ -52,26 +58,29 @@ public class SponsorFacadeREST {
     public void edit(Sponsor entity) {
         try {
            ejb.updateSponsor(entity); 
-        } catch (Exception e) {
+        } catch (UpdateException u) {
+            throw new InternalServerErrorException(u.getMessage());
         }
           
         
     }
     /**
      * DELETE method to remove Sponsor
-     * @param name The name for Sponsor
+     * @param id ID Sponsor
+     * @throws exceptions.ReadException
      */
     @DELETE
     @Path("{id}")
-    public void remove(@PathParam("id") String name) {
+    public void remove(@PathParam("id") Long id) throws ReadException {
         try {
-           ejb.removeSponsor(ejb.findSponsorByName(name)); 
-        } catch (Exception e) {
+           ejb.removeSponsor(ejb.findSponsor(id)); 
+        } catch (DeleteException d) {
+            throw new InternalServerErrorException(d.getMessage());
         }
         
     }
     /**
-     * GET method to get Sponsor by name
+     * GET method to get Sponsor by ID
      * @param id id for Sponsor
      * @return Sponsor object
      */
@@ -79,12 +88,12 @@ public class SponsorFacadeREST {
     @Path("{id}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public Sponsor find(@PathParam("id") Long id) {
-        Sponsor sponsor = null;
         try {
-           sponsor = ejb.findSponsor(id);
-        } catch (Exception e) {
+           return ejb.findSponsor(id);
+        } catch (ReadException r) {
+            throw new InternalServerErrorException(r.getMessage());
         }
-        return sponsor;
+
     }
     /**
      * GET method to get all Sponsors 
@@ -92,10 +101,31 @@ public class SponsorFacadeREST {
      */
     @GET
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public Set<Sponsor> findAll() {
-        Set<Sponsor> sponsors = null;
-        sponsors = ejb.findAllSponsor();
+    public List<Sponsor> findAll() {
+        List<Sponsor> sponsors = null;
+        try {
+           sponsors = ejb.findAllSponsor(); 
+        } catch (ReadException r) {
+            throw new InternalServerErrorException(r.getMessage());
+        }
+        
         return sponsors;
+    }
+    /**
+     * GET method to get Sponsors by Name
+     * @param name Sponsor name
+     * @return List of Sponsor
+     */
+    @GET
+    @Path("findSponsorByName/{name}")
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public Sponsor findSponsorByName(@PathParam("name") String name) {
+        try {
+           return ejb.findSponsorByName(name);
+        } catch (ReadException r) {
+            throw new InternalServerErrorException(r.getMessage());
+        }
+        
     }
     /**
      * GET method to get Sponsors by Date
@@ -105,11 +135,12 @@ public class SponsorFacadeREST {
     @GET
     @Path("findSponsorByDate/{date}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public Set<Sponsor> findRange(@PathParam("date") Date date) {
-        Set<Sponsor> sponsors = null;
+    public List<Sponsor> findRange(@PathParam("date") Date date) {
+        List<Sponsor> sponsors = null;
         try {
            sponsors=ejb.findSponsorByDate(date); 
-        } catch (Exception e) {
+        } catch (ReadException r) {
+            throw new InternalServerErrorException(r.getMessage());
         }
         return sponsors;
     }

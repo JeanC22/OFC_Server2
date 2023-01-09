@@ -10,7 +10,9 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import entities.Admin;
 import entities.Event;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -68,7 +70,7 @@ public class Sponsor implements Serializable {
     private Boolean status;
     
     @ManyToMany
-    private Set<Event> events;
+    private List<Event> events;
     
     @ManyToOne
     private Admin admin;
@@ -82,14 +84,6 @@ public class Sponsor implements Serializable {
         super();
     }
 
-    public Admin getAdmin() {
-        return admin;
-    }
-
-    public void setAdmin(Admin admin) {
-        this.admin = admin;
-    }
-    
     public Long getId() {
         return id;
     }
@@ -97,62 +91,72 @@ public class Sponsor implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
-    
-    public void setEventos(Set<Event> eventos) {
-        this.events = eventos;
-    }
 
-    public Set<Event> getEventos() {
-        return events;
-    }
-
-    public void setNombre(String nombre) {
-        this.name = nombre;
-    }
-
-    public String getNombre() {
+    public String getName() {
         return name;
     }
 
-    public void setTelefono(Integer telefono) {
-        this.phone = telefono;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public Integer getTelefono() {
+    public Integer getPhone() {
         return phone;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setPhone(Integer phone) {
+        this.phone = phone;
     }
 
     public String getEmail() {
         return email;
     }
 
-    public void setAnuncio(AdType anuncio) {
-        this.ad = anuncio;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public AdType getAnuncio() {
-        return ad;
-    }
-
-    public void setFecha(Date fecha) {
-        this.date = fecha;
-    }
-
-    public Date getFecha() {
+    public Date getDate() {
         return date;
     }
 
-    public void setEstado(Boolean estado) {
-        this.status = estado;
+    public void setDate(Date date) {
+        this.date = date;
     }
 
-    public Boolean getEstado() {
+    public Boolean getStatus() {
         return status;
     }
+
+    public void setStatus(Boolean status) {
+        this.status = status;
+    }
+
+    public List<Event> getEvents() {
+        return events;
+    }
+
+    public void setEvents(List<Event> events) {
+        this.events = events;
+    }
+
+    public Admin getAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(Admin admin) {
+        this.admin = admin;
+    }
+
+    public AdType getAd() {
+        return ad;
+    }
+
+    public void setAd(AdType ad) {
+        this.ad = ad;
+    }
+
+    
 
     @Override
     public int hashCode() {
