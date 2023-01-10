@@ -11,14 +11,12 @@ import exceptions.ReadException;
 import exceptions.UpdateException;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
-import javax.ejb.Local;
 
 /**
  * Local Interface for Sponsor EJB
  * @author Elias
  */
-@Local
+
 public interface SponsorManager {
    /**
      * This method create a new Sponsor

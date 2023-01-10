@@ -8,15 +8,14 @@ package sponsors;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import entities.Admin;
-import entities.Event;
+import event.Event;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -37,7 +36,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "sponsors", schema = "ofc_db")
 //consultas
 @NamedQueries({
-    @NamedQuery(name="findAllSponsor", 
+    @NamedQuery(name="findAllSponsors", 
         query="SELECT s FROM Sponsor s"
     ),
     @NamedQuery(name ="findSponsorByName", 
@@ -69,13 +68,13 @@ public class Sponsor implements Serializable {
 
     private Boolean status;
     
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<Event> events;
     
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Admin admin;
 
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     private AdType ad;
     
     

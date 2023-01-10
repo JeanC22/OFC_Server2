@@ -17,7 +17,7 @@ import javax.persistence.PersistenceContext;
 
 /**
  *
- * @author 2dam
+ * @author Elias
  */
 @Stateless
 public class EJBSponsorManager implements SponsorManager{
@@ -45,8 +45,11 @@ public class EJBSponsorManager implements SponsorManager{
     @Override
     public void updateSponsor(Sponsor sponsor) throws UpdateException{
         try {
-            em.merge(sponsor);
-            em.flush();
+            if(!em.contains(sponsor)){
+                em.merge(sponsor);
+                em.flush();
+            }
+            
         } catch (Exception e) {
             throw new UpdateException(e.getMessage());
         }
@@ -60,8 +63,7 @@ public class EJBSponsorManager implements SponsorManager{
     @Override
     public void removeSponsor(Sponsor sponsor) throws DeleteException{
         try {
-            sponsor = em.merge(sponsor);
-            em.remove(sponsor);
+            em.remove(em.merge(sponsor));
         } catch (Exception e){ 
             throw new DeleteException(e.getMessage());
         }
@@ -74,11 +76,9 @@ public class EJBSponsorManager implements SponsorManager{
      */
     @Override
     public List<Sponsor> findAllSponsor() throws ReadException{
-        List<Sponsor> sponsors = null;
+        List<Sponsor> sponsors;
         try {
-           sponsors = em.createNamedQuery("findAllSponsor")
-                   .getResultList();
-           
+           sponsors = em.createNamedQuery("findAllSponsors").getResultList();
         } catch (Exception e) {
             throw new ReadException(e.getMessage());
         }
