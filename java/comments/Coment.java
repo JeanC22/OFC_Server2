@@ -12,9 +12,13 @@ import entities.Event;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
+import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
@@ -24,71 +28,81 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+
 /**
- * Entity representing comments for users. It contains the following
- * fields: Long id, Date publication_date, Date modification_date,
- * String message, Integer valoration,Boolean privacity, String subject,
- * Client comCli and Event event 
+ * Entity representing comments for users. It contains the following fields:
+ * Long id, Date publication_date, Date modification_date, String message,
+ * Integer valoration,Boolean privacity, String subject, Client comCli and Event
+ * event
+ *
  * @author Jeanpierr Caraballo
  */
 @Entity
 @Table(name = "coments", schema = "ofc_db")
- @NamedQueries({
-    @NamedQuery(name="coments.findAll",
-                query="SELECT c FROM Coment c"), 
+@NamedQueries({
+    @NamedQuery(name = "coments.findAll",
+            query = "SELECT c FROM Coment c")
+    , 
      
-    @NamedQuery(name="coments.findBySubject",
-                query="SELECT c FROM Coment c where c.subject = :subject"),   
+    @NamedQuery(name = "coments.findBySubject",
+            query = "SELECT c FROM Coment c where c.subject = :subject")
+    ,   
       
-    @NamedQuery(name="coments.OrderByMoreRecent",
-                query="SELECT c FROM Coment c ORDER BY c.publication_date DESC"),
+    @NamedQuery(name = "coments.OrderByMoreRecent",
+            query = "SELECT c FROM Coment c ORDER BY c.publication_date DESC")
+    ,
   
-    @NamedQuery(name="coments.OrderByLastPublicate",
-                query="SELECT c FROM Coment c ORDER BY c.publication_date ASC"),
+    @NamedQuery(name = "coments.OrderByLastPublicate",
+            query = "SELECT c FROM Coment c ORDER BY c.publication_date ASC")
+    ,
    
-    @NamedQuery(name="coments.OrderByMoreRate",
-                query="SELECT c FROM Coment c ORDER BY c.valoration DESC"),
+    @NamedQuery(name = "coments.OrderByMoreRate",
+            query = "SELECT c FROM Coment c ORDER BY c.valoration DESC")
+    ,
     
-   @NamedQuery(name="coments.OrderByLessRate",
-                query="SELECT c FROM Coment c ORDER BY c.valoration ASC"),
+   @NamedQuery(name = "coments.OrderByLessRate",
+            query = "SELECT c FROM Coment c ORDER BY c.valoration ASC")
+    ,
  //searches by specific user    
-    @NamedQuery(name="MyComents",
-                query="SELECT c FROM Coment c WHERE c.comClie.id = :clientID"),
-  
-})
+    @NamedQuery(name = "MyComents",
+            query = "SELECT c FROM Coment c WHERE c.comClie.id = :clientID"),})
 @XmlRootElement
 public class Coment implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    /**
+     * compuesta por client_id y event_id
+     */
     @EmbeddedId
     private ComentId comentid;
-    
+
     @Temporal(TemporalType.TIMESTAMP)
-    @JsonSerialize(as=Date.class)
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm")
+    @JsonSerialize(as = Date.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm")
     private Date publication_date;
-    
+
     @Temporal(TemporalType.TIMESTAMP)
-    @JsonSerialize(as=Date.class)
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm")
+    @JsonSerialize(as = Date.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm")
     private Date modification_date;
-    
+
     private String message;
-    
+
     private Integer valoration;
-    
+
     private Boolean privacity;
 
     private String subject;
-    
+
     @MapsId("client_id")
-    @ManyToOne (fetch = FetchType.EAGER )
-    @JoinColumn(name="comClie_id")
+    @ManyToOne
+    @JoinColumn(name = "comClie_id")
     private Client comClie;
-    
+
     @MapsId("event_id")
-    @ManyToOne(fetch = FetchType.EAGER ) 
-    @JoinColumn(name="event_id")
+    @ManyToOne
+    @JoinColumn(name = "event_id")
     private Event event;
 
     public ComentId getComentid() {
@@ -146,7 +160,8 @@ public class Coment implements Serializable {
     public void setSubject(String subject) {
         this.subject = subject;
     }
-    
+
+    @XmlTransient
     public Client getComClie() {
         return comClie;
     }
@@ -155,6 +170,7 @@ public class Coment implements Serializable {
         this.comClie = client;
     }
 
+    @XmlTransient
     public Event getEvent() {
         return event;
     }
@@ -222,8 +238,4 @@ public class Coment implements Serializable {
         return Objects.equals(this.event, other.event);
     }
 
-
-
-   
 }
-      

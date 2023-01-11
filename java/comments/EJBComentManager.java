@@ -37,7 +37,13 @@ public class EJBComentManager implements CommentsMannager {
     @Override
     public void createComent(Coment coment) throws CreateException {
         try {
+            //if persistence context does not contain account for movement
+            //merge it to update account's balance after movement
+            //  if (!em.contains(coment.getEvent()) && !em.contains(coment.getComClie())) {
+            //    em.merge(coment.getEvent());
+            //  em.merge(coment.getComClie());
             em.persist(coment);
+            //}
         } catch (Exception e) {
             throw new CreateException(e.getMessage());
         }
@@ -54,7 +60,6 @@ public class EJBComentManager implements CommentsMannager {
     @Override
     public void deleteComent(Long clientID, Long evetID) throws DeleteException {
         try {
-            System.out.println(clientID + "eventid " + evetID);
             Coment coment = new Coment();
             ComentId comentid = new ComentId();
             comentid.setClient_id(clientID);
@@ -98,6 +103,7 @@ public class EJBComentManager implements CommentsMannager {
         try {
             coments = em.createNamedQuery("coments.findAll")
                     .getResultList();
+
         } catch (Exception e) {
             throw new ReadException(e.getMessage());
         }

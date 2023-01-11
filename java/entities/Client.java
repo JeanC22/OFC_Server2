@@ -5,7 +5,9 @@
  */
 package entities;
 
+import comments.Coment;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Set;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -27,7 +29,7 @@ public class Client extends User implements Serializable {
   
     
     @OneToMany(mappedBy = "comClie")
-    private Set<Coment> comentarios;
+    private List<Coment> comentarios;
     
     @OneToMany(mappedBy = "clie")
     private Set<Routine> rutinas;
@@ -45,11 +47,11 @@ public class Client extends User implements Serializable {
     }    
     
     @XmlTransient
-    public Set<Coment> getComentarios() {
+    public List<Coment> getComentarios() {
         return comentarios;
     }
 
-    public void setComentarios(Set<Coment> comentarios) {
+    public void setComentarios(List<Coment> comentarios) {
         this.comentarios = comentarios;
     }
 
