@@ -46,10 +46,11 @@ public class ComentFacadeREST {
      * method.
      *
      * @param coment The Coment entity object containing new coment data.
+     * @throws exceptions.ReadException
      */
     @POST
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void createComent(Coment coment) {
+    public void createComent(Coment coment) throws ReadException {
         try {
             ejb.createComent(coment);
         } catch (CreateException ex) {
@@ -106,7 +107,7 @@ public class ComentFacadeREST {
     @GET
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public List<Coment> findAllComents() {
-        List<Coment> coments = null;
+        List<Coment> coments;
         try {
             LOGGER.log(Level.INFO, "Reading data for all coments.");
             coments = ejb.getAllComents();

@@ -24,8 +24,10 @@ public interface CommentsMannager {
      * @param coment The coment entity object containing new coment data.
      * @throws CreateException Thrown when any error or exception occurs during
      * creation.
+    * @throws ReadException Thrown when any error or exception occurs during
+     * reading.
      */
-    public void createComent(Coment coment) throws CreateException;
+    public void createComent(Coment coment) throws CreateException ,ReadException;
 
     /**
      * This method delete a Coment from a client in a event.

@@ -46,7 +46,7 @@ import javax.xml.bind.annotation.XmlTransient;
     , 
      
     @NamedQuery(name = "coments.findBySubject",
-            query = "SELECT c FROM Coment c where c.subject = :subject")
+            query = "SELECT c FROM Coment c where c.subject Like :subject")
     ,   
       
     @NamedQuery(name = "coments.OrderByMoreRecent",

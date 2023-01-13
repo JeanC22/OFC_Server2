@@ -5,6 +5,8 @@
  */
 package comments;
 
+import entities.Client;
+import entities.Event;
 import exceptions.CreateException;
 import exceptions.DeleteException;
 import exceptions.ReadException;
@@ -35,17 +37,16 @@ public class EJBComentManager implements CommentsMannager {
      * creation.
      */
     @Override
-    public void createComent(Coment coment) throws CreateException {
+    public void createComent(Coment coment) throws CreateException,ReadException{
         try {
 
             if (!em.contains(coment.getEvent())) {
-               coment.setEvent(em.merge(coment.getEvent()));
+               coment.setEvent(em.merge(em.find(Event.class, coment.getComentid().getEvent_id())));
             }
             if (!em.contains(coment.getComClie())) {
-                coment.setComClie(em.merge(coment.getComClie()));
+                coment.setComClie(em.merge(em.find(Client.class, coment.getComentid().getClient_id())));
             }
             em.persist(coment);
-
         } catch (Exception e) {
             throw new CreateException(e.getMessage());
         }
@@ -101,10 +102,9 @@ public class EJBComentManager implements CommentsMannager {
      */
     @Override
     public List<Coment> getAllComents() throws ReadException {
-        List<Coment> coments = null;
+        List<Coment> coments;
         try {
             coments = em.createNamedQuery("coments.findAll").getResultList();
-            System.out.println(coments.isEmpty());
         } catch (Exception e) {
             throw new ReadException(e.getMessage());
         }
@@ -141,7 +141,6 @@ public class EJBComentManager implements CommentsMannager {
     @Override
     public List<Coment> findOrderByMoreRecent() throws ReadException {
         List<Coment> coments = null;
-
         try {
             coments = em.createNamedQuery("coments.OrderByMoreRecent")
                     .getResultList();
