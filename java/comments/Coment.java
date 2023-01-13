@@ -96,12 +96,12 @@ public class Coment implements Serializable {
     private String subject;
 
     @MapsId("client_id")
-    @ManyToOne
+    @ManyToOne(targetEntity = Client.class)
     @JoinColumn(name = "comClie_id")
     private Client comClie;
 
     @MapsId("event_id")
-    @ManyToOne
+    @ManyToOne(targetEntity = Event.class)
     @JoinColumn(name = "event_id")
     private Event event;
 

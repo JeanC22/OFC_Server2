@@ -37,13 +37,15 @@ public class EJBComentManager implements CommentsMannager {
     @Override
     public void createComent(Coment coment) throws CreateException {
         try {
-            //if persistence context does not contain account for movement
-            //merge it to update account's balance after movement
-            //  if (!em.contains(coment.getEvent()) && !em.contains(coment.getComClie())) {
-            //    em.merge(coment.getEvent());
-            //  em.merge(coment.getComClie());
+
+            if (!em.contains(coment.getEvent())) {
+               coment.setEvent(em.merge(coment.getEvent()));
+            }
+            if (!em.contains(coment.getComClie())) {
+                coment.setComClie(em.merge(coment.getComClie()));
+            }
             em.persist(coment);
-            //}
+
         } catch (Exception e) {
             throw new CreateException(e.getMessage());
         }
@@ -101,9 +103,8 @@ public class EJBComentManager implements CommentsMannager {
     public List<Coment> getAllComents() throws ReadException {
         List<Coment> coments = null;
         try {
-            coments = em.createNamedQuery("coments.findAll")
-                    .getResultList();
-
+            coments = em.createNamedQuery("coments.findAll").getResultList();
+            System.out.println(coments.isEmpty());
         } catch (Exception e) {
             throw new ReadException(e.getMessage());
         }

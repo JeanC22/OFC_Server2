@@ -35,7 +35,7 @@ public class ComentFacadeREST {
      * EJB object implementing business logic.
      */
     @EJB
-    private comments.CommentsMannager ejb;
+    private CommentsMannager ejb;
     /**
      * Logger for this class.
      */
