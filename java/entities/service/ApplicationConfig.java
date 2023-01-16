@@ -30,14 +30,15 @@ public class ApplicationConfig extends Application {
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
      
-        resources.add(entities.service.AdminFacadeREST.class);
-        resources.add(entities.service.ClientFacadeREST.class);
-        resources.add(entities.service.ComentFacadeREST.class);
-        resources.add(entities.service.EventFacadeREST.class);
-        resources.add(entities.service.SponsorFacadeREST.class);
-        resources.add(entities.service.UserFacadeREST.class);
+        resources.add(comments.ComentFacadeREST.class);
+        resources.add(event.EventFacadeREST.class);
         resources.add(routine.ExerciseFacadeREST.class);
         resources.add(routine.RoutineFacadeREST.class);
+        resources.add(sponsors.SponsorFacadeREST.class);
+        resources.add(usuario.AdminFacadeREST.class);
+        resources.add(usuario.ClientFacadeREST.class);
+        resources.add(usuario.UserFacadeREST.class);
+        
     }
    
     

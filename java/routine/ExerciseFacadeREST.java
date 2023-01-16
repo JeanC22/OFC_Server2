@@ -10,6 +10,7 @@ import exceptions.DeleteException;
 import exceptions.ReadException;
 import exceptions.UpdateException;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.persistence.PersistenceContext;
@@ -35,7 +36,7 @@ public class ExerciseFacadeREST {
 
     
     @EJB
-    @PersistenceContext(unitName = "OFC_ServerWebPU")
+    //@PersistenceContext(unitName = "OFC_ServerWebPU")
     private ExerciseManager ejb;
 
 
@@ -60,13 +61,11 @@ public class ExerciseFacadeREST {
      * This method is used to edit the data in a database and in case the data 
      * does not exist to create it and in case of receiving an error we will
      * send an internal server error.
-     * @param id Client id
      * @param exercise updated exercise
      */
     @PUT
-    @Path("{id}")
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void edit(@PathParam("id") Long id, Exercise exercise) {
+    public void edit(Exercise exercise) {
         try {
            ejb.updateExercise(exercise);
         } catch (UpdateException e) {
@@ -78,14 +77,15 @@ public class ExerciseFacadeREST {
     /**
      * This method is used to remove data from the database and in case of 
      * receiving an error we will send an internal server error
-     * @param exercise The exercise to be deleted
+     * @param id The exercise id to be deleted
      */
+    
     @DELETE
-    @Path("{id}")
-    public void remove(@PathParam("id") Exercise exercise) {
+    @Path("delete/{id}")
+    public void remove(@PathParam("id") Long id) {
        try {
-           ejb.deleteExercise(exercise);
-        } catch (DeleteException e) {
+           ejb.deleteExercise(ejb.consultExerciseById(id));
+        } catch (DeleteException | ReadException e) {
             LOGGER.severe(e.getMessage());
             throw new InternalServerErrorException(e.getMessage());
 
@@ -116,13 +116,13 @@ public class ExerciseFacadeREST {
      * @return Return a list of exercises
      */
     @GET
-    @Path("consultAllExercises/")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public List<Exercise> consultAllExercises() {
-        List<Exercise> exercise=null;
+        List<Exercise> exercise;
         try {
-            exercise= (List<Exercise>) ejb.consultAllExercises();
+            exercise= ejb.consultAllExercises();
         } catch (ReadException e) {
+            System.out.println(e.getMessage());
             LOGGER.severe(e.getMessage());
             throw new InternalServerErrorException(e.getMessage());
     }
@@ -139,8 +139,10 @@ public class ExerciseFacadeREST {
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public Exercise consultExerciseByName(@PathParam("name") String name) {
        Exercise exercise=null;
+       Exercises enumE;
         try {
-            exercise=  (Exercise) ejb.consultExerciseByName(name);
+            enumE= Exercises.valueOf(name.toUpperCase());
+            exercise=  ejb.consultExerciseByName(enumE);
         } catch (ReadException e) {
             LOGGER.severe(e.getMessage());
             throw new InternalServerErrorException(e.getMessage());

@@ -10,10 +10,11 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import usuario.Admin;
 import usuario.Client;
 
-import entities.Coment;
+import comments.Coment;
 import sponsors.Sponsor;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -84,17 +85,17 @@ public class Event implements Serializable {
     private Set<Sponsor> ads;
    
     @OneToMany(mappedBy = "event")
-    private Set<Coment> coments;
+    private List<Coment> coments;
     
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name="event_client", schema="OFC_DB")
-    private Set<Client> clients;
+    private List<Client> clients;
 
-    public Set<Client> getClients() {
+    public List<Client> getClients() {
         return clients;
     }
 
-    public void setClients(Set<Client> clients) {
+    public void setClients(List<Client> clients) {
         this.clients = clients;
     }
 
@@ -177,11 +178,11 @@ public class Event implements Serializable {
     }
 
     @XmlTransient
-    public Set<Coment> getComents() {
+    public List<Coment> getComents() {
         return coments;
     }
 
-    public void setComents(Set<Coment> coments) {
+    public void setComents(List<Coment> coments) {
         this.coments = coments;
     } 
 

@@ -10,7 +10,6 @@ import exceptions.DeleteException;
 import exceptions.ReadException;
 import exceptions.UpdateException;
 import java.util.List;
-import java.util.Set;
 
 /**
  *
@@ -27,15 +26,7 @@ public interface RoutineManager {
      * reading the data.
      */
     public Routine consultRoutineByName(String name) throws ReadException;
-    /**
-     * This method searches for a routine by id
-     * 
-     * @param id Exercise id
-     * @return Returns a list of routines
-     * @throws ReadException It will be throwed when there is an error in 
-     * reading the data.
-     */
-    public Set<Routine> consultRoutineByExercise(Integer id) throws ReadException;
+ 
     
     /**
      * This method searches all the routines of a client
@@ -72,5 +63,21 @@ public interface RoutineManager {
      * updating an routine.
      */
     public void updateRoutine(Routine routine) throws UpdateException;
+    
+    /**
+     * This method is uded to find all routines in the database
+     * @return Returns all routines
+     * @throws ReadException It will be throwed when there is an error in 
+     * reading the data.
+     */
+    public List<Routine> consultAllRoutines() throws ReadException;
+    
+    /**
+     * This method finds one routine with a concrete id
+     * @param id Routine id
+     * @return Returns the routine whith the required id
+     * @throws ReadException 
+     */
+    public Routine consultRoutineById(Long id) throws ReadException;
 
 }

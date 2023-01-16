@@ -6,10 +6,10 @@
 package usuario;
 
 
-import entities.Coment;
+import comments.Coment;
 import event.Event;
 import java.io.Serializable;
-import java.util.Set;
+import java.util.List;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
@@ -29,40 +29,39 @@ public class Client extends User implements Serializable {
 
     private static final long serialVersionUID = 1L;
   
-    
-    @OneToMany(mappedBy = "comClie")
-    private Set<Coment> comentarios;
+    @OneToMany(targetEntity = Coment.class, mappedBy = "comClie")
+    private List<Coment> comentarios;
     
     @OneToMany(mappedBy = "clie")
-    private Set<Routine> rutinas;
+    private List<Routine> rutinas;
     
     @ManyToMany
-    private Set<Event> events;
+    private List<Event> events;
 
     @XmlTransient
-    public Set<Event> getEvents() {
+    public List<Event> getEvents() {
         return events;
     }
 
-    public void setEvents(Set<Event> events) {
+    public void setEvents(List<Event> events) {
         this.events = events;
     }    
     
     @XmlTransient
-    public Set<Coment> getComentarios() {
+    public List<Coment> getComentarios() {
         return comentarios;
     }
 
-    public void setComentarios(Set<Coment> comentarios) {
+    public void setComentarios(List<Coment> comentarios) {
         this.comentarios = comentarios;
     }
 
     @XmlTransient
-    public Set<Routine> getRutinas() {
+    public List<Routine> getRutinas() {
         return rutinas;
     }
 
-    public void setRutinas(Set<Routine> rutinas) {
+    public void setRutinas(List<Routine> rutinas) {
         this.rutinas = rutinas;
     }
 

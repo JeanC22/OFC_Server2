@@ -6,7 +6,7 @@
 package usuario;
 
 
-import entities.service.AbstractFacade;
+
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -26,66 +26,64 @@ import javax.ws.rs.core.MediaType;
  * @author 2dam
  */
 @Path("entities.admin")
-public class AdminFacadeREST extends AbstractFacade<Admin> {
+public class AdminFacadeREST{
 
     @PersistenceContext(unitName = "OFC_ServerWebPU")
     private EntityManager em;
 
     public AdminFacadeREST() {
-        super(Admin.class);
+   
     }
 
     @POST
-    @Override
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public void create(Admin entity) {
-        super.create(entity);
+        
     }
 
     @PUT
     @Path("{id}")
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public void edit(@PathParam("id") Integer id, Admin entity) {
-        super.edit(entity);
+
     }
 
     @DELETE
     @Path("{id}")
     public void remove(@PathParam("id") Integer id) {
-        super.remove(super.find(id));
+       
     }
 
     @GET
     @Path("{id}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public Admin find(@PathParam("id") Integer id) {
-        return super.find(id);
+        return null;
+   
     }
 
     @GET
-    @Override
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public List<Admin> findAll() {
-        return super.findAll();
+        return null;
+   
     }
 
     @GET
     @Path("{from}/{to}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public List<Admin> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
-        return super.findRange(new int[]{from, to});
+        return null;
+     
     }
 
     @GET
     @Path("count")
     @Produces(MediaType.TEXT_PLAIN)
     public String countREST() {
-        return String.valueOf(super.count());
+        return null;
     }
 
-    @Override
-    protected EntityManager getEntityManager() {
-        return em;
-    }
+
     
 }
