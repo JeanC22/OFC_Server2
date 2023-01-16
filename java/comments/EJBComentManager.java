@@ -125,7 +125,7 @@ public class EJBComentManager implements CommentsMannager {
         List<Coment> coments = null;
         try {
             coments = em.createNamedQuery("coments.findBySubject")
-                    .setParameter("subject", subject).getResultList();
+                    .setParameter("subject", subject + "%").getResultList();
         } catch (Exception e) {
             throw new ReadException(e.getMessage());
         }
