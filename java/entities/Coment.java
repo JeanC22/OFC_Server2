@@ -7,6 +7,7 @@ package entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import event.Event;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
@@ -19,6 +20,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
+import usuario.Client;
 
 /**
  *

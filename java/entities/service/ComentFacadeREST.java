@@ -28,7 +28,7 @@ import javax.ws.rs.core.MediaType;
 @Path("entities.coment")
 public class ComentFacadeREST extends AbstractFacade<Coment> {
 
-    @PersistenceContext(unitName = "OFC_ServerWebPU")
+    //@PersistenceContext(unitName = "OFC_ServerWebPU")
     private EntityManager em;
 
     public ComentFacadeREST() {

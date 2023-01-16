@@ -7,14 +7,16 @@ package routine;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import entities.Client;
+import usuario.Client;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
@@ -37,7 +39,12 @@ import javax.xml.bind.annotation.XmlTransient;
     
     @NamedQuery(name="consultAllRoutines", query="SELECT r FROM Routine r"),
     
-    @NamedQuery(name="consultAllClientRoutines", query="SELECT r FROM Routine r WHERE r.clie= :clie"),
+    @NamedQuery(name="consultAllClientRoutines", query="SELECT r FROM Routine r  WHERE r.clie.id = :id"),
+    
+    @NamedQuery(name="consultRoutineById", query="SELECT r FROM Routine r WHERE r.id= :id"),
+
+   
+    
 })
 @XmlRootElement
 public class Routine implements Serializable {
@@ -45,7 +52,7 @@ public class Routine implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private Long id;
 
     private String name;
 
@@ -61,23 +68,24 @@ public class Routine implements Serializable {
     
     private Double kcal;
     
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="clie_id")
     private Client clie;
 
     /**
      * @associates 
      */
-    @ManyToMany
+    @ManyToMany(fetch= FetchType.EAGER)
     @JoinTable(name="routine_exercises", schema="OFC_DB")
     private List<Exercise> exercises;
     
-    private Float time;
+    private Float routineTime;
 
-     public Integer getId() {
+     public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -131,11 +139,11 @@ public class Routine implements Serializable {
     }
 
     public Float getTime() {
-        return time;
+        return routineTime;
     }
 
     public void setTime(Float time) {
-        this.time = time;
+        this.routineTime = time;
     }
 
 

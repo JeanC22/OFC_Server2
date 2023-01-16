@@ -30,12 +30,12 @@ public interface ExerciseManager {
     /**
      * This method searches for exercises by name
      * 
-     * @param name Name of the exercise
+     * @param exercises Name of the exercise
      * @return Returns a list of exercises
      * @throws ReadException It will be throwed when there is
      * an error in reading the data.
      */
-    public Exercise consultExerciseByName(String name) throws ReadException;
+    public Exercise consultExerciseByName(Exercises exercises) throws ReadException;
     
     /**
      * This method searches all exercises
@@ -58,11 +58,11 @@ public interface ExerciseManager {
     /**
      * This method delete exercise
      * 
-     * @param exercise The exercise to be deleted
+     * @param id The exercise id to be deleted
      * @throws DeleteException It will be launched when there is an error when
      * deleting an exercise.
      */
-    public void deleteExercise(Exercise exercise) throws DeleteException;
+    public void deleteExercise(Exercise id) throws DeleteException;
     
     /**
      * This method updates an exercise

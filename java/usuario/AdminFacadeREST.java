@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package entities.service;
+package usuario;
 
-import entities.Client;
+
+import entities.service.AbstractFacade;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -24,28 +25,27 @@ import javax.ws.rs.core.MediaType;
  *
  * @author 2dam
  */
-@Stateless
-@Path("entities.client")
-public class ClientFacadeREST extends AbstractFacade<Client> {
+@Path("entities.admin")
+public class AdminFacadeREST extends AbstractFacade<Admin> {
 
     @PersistenceContext(unitName = "OFC_ServerWebPU")
     private EntityManager em;
 
-    public ClientFacadeREST() {
-        super(Client.class);
+    public AdminFacadeREST() {
+        super(Admin.class);
     }
 
     @POST
     @Override
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void create(Client entity) {
+    public void create(Admin entity) {
         super.create(entity);
     }
 
     @PUT
     @Path("{id}")
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void edit(@PathParam("id") Integer id, Client entity) {
+    public void edit(@PathParam("id") Integer id, Admin entity) {
         super.edit(entity);
     }
 
@@ -58,21 +58,21 @@ public class ClientFacadeREST extends AbstractFacade<Client> {
     @GET
     @Path("{id}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public Client find(@PathParam("id") Integer id) {
+    public Admin find(@PathParam("id") Integer id) {
         return super.find(id);
     }
 
     @GET
     @Override
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<Client> findAll() {
+    public List<Admin> findAll() {
         return super.findAll();
     }
 
     @GET
     @Path("{from}/{to}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<Client> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
+    public List<Admin> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
         return super.findRange(new int[]{from, to});
     }
 

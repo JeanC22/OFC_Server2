@@ -3,10 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package entities;
+package event;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import usuario.Admin;
+import usuario.Client;
+
+import entities.Coment;
+import sponsors.Sponsor;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
@@ -18,6 +23,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -26,11 +33,23 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
- *
+ * This class is where the Entities and their relationships are declared, 
+ * as well as the queries to be performed in the DB.
  * @author Iker
  */
 @Entity
 @Table(name = "EVENTS", schema = "OFC_DB")
+@NamedQueries({
+    @NamedQuery(name = "findEvents" , query = "select e from Event e"),
+    
+    @NamedQuery(name = "findEventByName" ,query = "select e from Event e where e.name = :name"),
+    
+    @NamedQuery(name = "findEventByActivity", query = "select e from Event e where e.activity = :activity"),
+    
+    @NamedQuery(name = "findEventByDate", query = "select e from Event e where e.date = :date")
+       
+})
+
 @XmlRootElement
 public class Event implements Serializable {
 
@@ -67,9 +86,17 @@ public class Event implements Serializable {
     @OneToMany(mappedBy = "event")
     private Set<Coment> coments;
     
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name="event_client", schema="OFC_DB")
     private Set<Client> clients;
+
+    public Set<Client> getClients() {
+        return clients;
+    }
+
+    public void setClients(Set<Client> clients) {
+        this.clients = clients;
+    }
 
    
      public Long getId() {

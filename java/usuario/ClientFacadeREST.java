@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package entities.service;
+package usuario;
 
-import entities.Sponsor;
+
+import entities.service.AbstractFacade;
 import java.util.List;
-import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.ws.rs.Consumes;
@@ -22,30 +22,29 @@ import javax.ws.rs.core.MediaType;
 
 /**
  *
- * @author Elias
+ * @author 2dam
  */
-@Stateless
-@Path("entities.sponsor")
-public class SponsorFacadeREST extends AbstractFacade<Sponsor> {
+@Path("entities.client")
+public class ClientFacadeREST extends AbstractFacade<Client> {
 
     @PersistenceContext(unitName = "OFC_ServerWebPU")
     private EntityManager em;
 
-    public SponsorFacadeREST() {
-        super(Sponsor.class);
+    public ClientFacadeREST() {
+        super(Client.class);
     }
 
     @POST
     @Override
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void create(Sponsor entity) {
+    public void create(Client entity) {
         super.create(entity);
     }
 
     @PUT
     @Path("{id}")
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void edit(@PathParam("id") Integer id, Sponsor entity) {
+    public void edit(@PathParam("id") Integer id, Client entity) {
         super.edit(entity);
     }
 
@@ -58,21 +57,21 @@ public class SponsorFacadeREST extends AbstractFacade<Sponsor> {
     @GET
     @Path("{id}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public Sponsor find(@PathParam("id") Integer id) {
+    public Client find(@PathParam("id") Integer id) {
         return super.find(id);
     }
 
     @GET
     @Override
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<Sponsor> findAll() {
+    public List<Client> findAll() {
         return super.findAll();
     }
 
     @GET
     @Path("{from}/{to}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<Sponsor> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
+    public List<Client> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
         return super.findRange(new int[]{from, to});
     }
 

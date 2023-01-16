@@ -29,21 +29,26 @@ public class EJBExerciseManager implements ExerciseManager{
     
      @Override
     public Exercise consultExerciseById(Long id) throws ReadException {
-        List<Exercise> exercise= null;
+        List<Exercise> list= null;
+        Exercise exercise= null;
          try {
-            exercise= em.createNamedQuery("consultExerciseById").setParameter("id", id).getResultList();
-           
+            list= em.createNamedQuery("consultExerciseById").setParameter("id", id).getResultList();
+            exercise= list.get(0);
+            
         } catch (Exception e) {
             throw new ReadException(e.getMessage());
         }
-          return (Exercise) exercise;
+          return  exercise;
     }
     
     @Override
-    public Exercise consultExerciseByName(String name) throws ReadException {
+    public Exercise consultExerciseByName(Exercises exercises) throws ReadException {
          Exercise exercise= null;
+         List<Exercise> list;
+        
          try {
-            exercise= (Exercise) em.createNamedQuery("consultExerciseByName").setParameter("name", name);
+            list= em.createNamedQuery("consultExerciseByName").setParameter("name", exercises).getResultList();
+            exercise= list.get(0);
            
         } catch (Exception e) {
             throw new ReadException(e.getMessage());
@@ -53,9 +58,9 @@ public class EJBExerciseManager implements ExerciseManager{
 
     @Override
     public List<Exercise> consultAllExercises() throws ReadException {
-        List<Exercise> exercise= null;
+        List<Exercise> exercise;
           try {
-             exercise=  em.createNamedQuery("findAllExercises").getResultList();
+             exercise=  em.createNamedQuery("consultAllExercises").getResultList();
              
         } catch (Exception e) {
             throw new ReadException(e.getMessage());
@@ -73,9 +78,9 @@ public class EJBExerciseManager implements ExerciseManager{
     }
 
     @Override
-    public void deleteExercise(Exercise exercise) throws DeleteException {
+    public void deleteExercise(Exercise id) throws DeleteException {
         try {
-             em.remove(em.merge(exercise));
+             em.remove(em.merge(id));
         } catch (Exception e) {
             throw new DeleteException(e.getMessage());
         }

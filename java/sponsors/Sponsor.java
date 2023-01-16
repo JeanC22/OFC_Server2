@@ -3,39 +3,57 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package entities;
+package sponsors;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import usuario.Admin;
+import event.Event;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- *
+ * Entity for Sponsor
  * @author Elias
  */
 @Entity
-@Table(name = "SPONSORS", schema = "OFC_DB")
+@Table(name = "sponsors", schema = "ofc_db")
+//consultas
+@NamedQueries({
+    @NamedQuery(name="findAllSponsors", 
+        query="SELECT s FROM Sponsor s"
+    ),
+    @NamedQuery(name ="findSponsorByName", 
+        query="SELECT s FROM Sponsor s WHERE s.name = :name"
+    ),
+    @NamedQuery(name ="findSponsorByDate", 
+        query="SELECT s FROM Sponsor s WHERE s.date = :date"
+    )
+})
+
 @XmlRootElement
 public class Sponsor implements Serializable {
 
   private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private Long id;
 
     private String name;
 
@@ -43,91 +61,101 @@ public class Sponsor implements Serializable {
 
     private String email;
 
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
     @JsonSerialize(as=Date.class)
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm")
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
     private Date date;
 
     private Boolean status;
     
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<Event> events;
     
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Admin admin;
 
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     private AdType ad;
-
-     public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
- 
-    public void setEventos(List<Event> eventos) {
-        this.events = eventos;
-    }
-
-    public List<Event> getEventos() {
-        return events;
-    }
-
+    
+    
 
     public Sponsor() {
         super();
     }
 
-
-    public void setNombre(String nombre) {
-        this.name = nombre;
+    public Long getId() {
+        return id;
     }
 
-    public String getNombre() {
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
         return name;
     }
 
-    public void setTelefono(Integer telefono) {
-        this.phone = telefono;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public Integer getTelefono() {
+    public Integer getPhone() {
         return phone;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setPhone(Integer phone) {
+        this.phone = phone;
     }
 
     public String getEmail() {
         return email;
     }
 
-    public void setAnuncio(AdType anuncio) {
-        this.ad = anuncio;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public AdType getAnuncio() {
-        return ad;
-    }
-
-    public void setFecha(Date fecha) {
-        this.date = fecha;
-    }
-
-    public Date getFecha() {
+    public Date getDate() {
         return date;
     }
 
-    public void setEstado(Boolean estado) {
-        this.status = estado;
+    public void setDate(Date date) {
+        this.date = date;
     }
 
-    public Boolean getEstado() {
+    public Boolean getStatus() {
         return status;
     }
+
+    public void setStatus(Boolean status) {
+        this.status = status;
+    }
+
+    public List<Event> getEvents() {
+        return events;
+    }
+
+    public void setEvents(List<Event> events) {
+        this.events = events;
+    }
+
+    public Admin getAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(Admin admin) {
+        this.admin = admin;
+    }
+
+    public AdType getAd() {
+        return ad;
+    }
+
+    public void setAd(AdType ad) {
+        this.ad = ad;
+    }
+
+    
 
     @Override
     public int hashCode() {

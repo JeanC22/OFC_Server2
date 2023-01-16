@@ -77,14 +77,14 @@ public class RoutineFacadeREST {
     /**
      * This method is used to remove data from the database and in case of 
      * receiving an error we will send an internal server error
-     * @param routine the routine that will be deleted
+     * @param id the routine id that will be deleted
      */
     @DELETE
-    @Path("{routine}")
-    public void remove(@PathParam("routine") Routine routine) {
+    @Path("delete/{id}")
+    public void remove(@PathParam("id") Long id) {
         try {
-           ejb.deleteRoutine(routine);
-        } catch (DeleteException e) {
+           ejb.deleteRoutine(ejb.consultRoutineById(id));
+        } catch (DeleteException | ReadException e) {
             LOGGER.severe(e.getMessage());
             throw new InternalServerErrorException(e.getMessage());
 
@@ -116,39 +116,51 @@ public class RoutineFacadeREST {
      * @return Returns a list of routines
      */
     @GET
-    @Path("{id}")
+    @Path("allClientRoutines/{id}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public List<Routine> consultAllClientRoutines(@PathParam("id") Integer id) {
-        List<Routine> routine=null;
+        List<Routine> routines=null;
         try {
-            routine= ejb.consultAllClientRoutines(id);
+            routines= ejb.consultAllClientRoutines(id);
         } catch (ReadException e) {
             LOGGER.severe(e.getMessage());
+            
             throw new InternalServerErrorException(e.getMessage());
     }
-        return routine;
+        return routines;
     }
 
+  
+    @GET
+    @Path("consultRoutineById/{id}")
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public Routine consultRoutineById(@PathParam("id") Long id) {
+        Routine routines;
+        try {
+            routines= ejb.consultRoutineById(id);
+        } catch (ReadException e) {
+            LOGGER.severe(e.getMessage());
+            
+            throw new InternalServerErrorException(e.getMessage());
+    }
+        return routines;
+    }
+    
     /**
-     * This method searches for all routines in which there is a specific 
-     * exercise.
-     * @param id the exercise id
-     * @return Returns a list of routines
+     * This method finds all routines in the database
+     * @return Returns all routines
      */
     @GET
-    @Path("exercise/{id}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public Set<Routine> consultRoutineByExercise(@PathParam("id") Integer id) {
-
-        Set<Routine> routines= null;
-        try {
-            
-           routines= ejb.consultRoutineByExercise(id);
+    public List<Routine> consultAllRoutines() {
+        List<Routine> routine;
+         try {
+           routine= ejb.consultAllRoutines();
         } catch (ReadException e) {
             LOGGER.severe(e.getMessage());
-            throw new InternalServerErrorException(e.getMessage());
+           throw new InternalServerErrorException(e.getMessage());
         }
-        return routines;
+         return routine;
     }
 
     

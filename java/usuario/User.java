@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package entities;
+package usuario;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -17,6 +17,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -29,13 +31,17 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @Table(name = "USERS", schema = "ofc_db")
+@NamedQueries({
+   @NamedQuery(name = "findUser", query = "Select u from User u where u.username = :username and u.password = :password"),
+    @NamedQuery(name = "findAllUser", query = "Select u from User u")
+})
 @XmlRootElement
 public class User implements Serializable {
 
   private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Integer id;
 
     private String username;
     
@@ -56,11 +62,11 @@ public class User implements Serializable {
     
     private String password;
     
-     public Long getId() {
+     public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
     public String getUsername() {
