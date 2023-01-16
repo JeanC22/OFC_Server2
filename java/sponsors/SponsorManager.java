@@ -9,7 +9,6 @@ import exceptions.CreateException;
 import exceptions.DeleteException;
 import exceptions.ReadException;
 import exceptions.UpdateException;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -58,9 +57,9 @@ public interface SponsorManager {
     public Sponsor findSponsorByName(String name) throws ReadException;
     /**
      * This method get Sponsor using date
-     * @param date Sponsor date
+     * @param strdate Date for Sponsor in String
      * @return List Sponsor
      * @throws ReadException
      */
-    public List<Sponsor> findSponsorByDate(Date date) throws ReadException;
+    public List<Sponsor> findSponsorByDate(String strdate) throws ReadException;
 }
