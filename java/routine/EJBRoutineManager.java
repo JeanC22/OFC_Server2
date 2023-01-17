@@ -38,7 +38,8 @@ public class EJBRoutineManager implements RoutineManager {
         Routine routine;
         List<Routine> list;
         try {
-            list = em.createNamedQuery("consultRoutineByName").setParameter("name", name).getResultList();
+            list = em.createNamedQuery("consultAllExercises").getResultList();
+            em.createNamedQuery("consultRoutineByName").setParameter("name", name).getResultList();
             routine = list.get(0);
         } catch (Exception e) {
             throw new ReadException(e.getMessage());

@@ -16,11 +16,11 @@ public interface UserManager {
     
     public User signIn(String username, String password) throws ReadException;
     
-    public void signUp(User user) throws CreateException;
+    public void signUp(Client clie) throws CreateException;
     
-    public void passwordChange(User user, String password) throws UpdateException;
+    public void passwordChange(Long id, String newPassword, String oldPassword) throws UpdateException;
     
-    public void passwordForgotten(User user) throws UpdateException;
+    public void passwordForgotten(Long id,String password,String passwordHash) throws UpdateException;
     
     public List<User> allusers() throws ReadException;
 }
