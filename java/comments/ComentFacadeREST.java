@@ -53,7 +53,6 @@ public class ComentFacadeREST {
     public void createComent(Coment coment) throws ReadException {
         try {
             LOGGER.log(Level.INFO, "Creating Coment", coment.getComentid());
-
             ejb.createComent(coment);
         } catch (CreateException ex) {
             LOGGER.severe(ex.getMessage());
