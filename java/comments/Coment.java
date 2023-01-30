@@ -61,7 +61,10 @@ import javax.xml.bind.annotation.XmlTransient;
     ,
  //searches by specific user    
     @NamedQuery(name = "MyComents",
-            query = "SELECT c FROM Coment c WHERE c.comClie.id = :clientID"),})
+            query = "SELECT c FROM Coment c WHERE c.comClie.id = :clientID")
+    ,
+@NamedQuery(name = "EventComents",
+            query = "SELECT c FROM Coment c , Event E WHERE c.event.id = :eventID"),})
 @XmlRootElement(name = "coments")
 public class Coment implements Serializable {
 

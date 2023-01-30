@@ -38,11 +38,11 @@ public class EJBComentManager implements CommentsMannager {
      * @throws exceptions.ReadException
      */
     @Override
-    public void createComent(Coment coment) throws CreateException,ReadException{
+    public void createComent(Coment coment) throws CreateException, ReadException {
         try {
 
             if (!em.contains(coment.getEvent())) {
-               coment.setEvent(em.merge(em.find(Event.class, coment.getComentid().getEvent_id())));
+                coment.setEvent(em.merge(em.find(Event.class, coment.getComentid().getEvent_id())));
             }
             if (!em.contains(coment.getComClie())) {
                 coment.setComClie(em.merge(em.find(Client.class, coment.getComentid().getClient_id())));
@@ -225,6 +225,20 @@ public class EJBComentManager implements CommentsMannager {
         try {
             coments = em.createNamedQuery("MyComents")
                     .setParameter("clientID", clientID)
+                    .getResultList();
+        } catch (Exception e) {
+            throw new ReadException(e.getMessage());
+        }
+        return coments;
+    }
+
+    @Override
+    public List<Coment> EventComents(Long eventID) throws ReadException {
+        List<Coment> coments = null;
+
+        try {
+            coments = em.createNamedQuery("EventComents")
+                    .setParameter("eventID", eventID)
                     .getResultList();
         } catch (Exception e) {
             throw new ReadException(e.getMessage());
