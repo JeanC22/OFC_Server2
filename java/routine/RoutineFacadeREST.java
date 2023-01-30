@@ -20,6 +20,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.InternalServerErrorException;
+import javax.ws.rs.NotFoundException;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -103,6 +104,9 @@ public class RoutineFacadeREST {
         Routine routine;
          try {
            routine= ejb.consultRoutineByName(name);
+            if (routine==null) {
+                 throw new NotFoundException();
+             }
         } catch (ReadException e) {
             LOGGER.severe(e.getMessage());
            throw new InternalServerErrorException(e.getMessage());
@@ -122,6 +126,9 @@ public class RoutineFacadeREST {
         List<Routine> routines=null;
         try {
             routines= ejb.consultAllClientRoutines(id);
+             if (routines.isEmpty()) {
+                 throw new NotFoundException();
+             }
         } catch (ReadException e) {
             LOGGER.severe(e.getMessage());
             
@@ -138,10 +145,13 @@ public class RoutineFacadeREST {
         Routine routines;
         try {
             routines= ejb.consultRoutineById(id);
+             if (routines==null) {
+                 throw new NotFoundException();
+             }
         } catch (ReadException e) {
             LOGGER.severe(e.getMessage());
             
-            throw new InternalServerErrorException(e.getMessage());
+           throw new InternalServerErrorException(e.getMessage());
     }
         return routines;
     }
@@ -156,6 +166,9 @@ public class RoutineFacadeREST {
         List<Routine> routine;
          try {
            routine= ejb.consultAllRoutines();
+             if (routine.isEmpty()) {
+                 throw new NotFoundException();
+             }
         } catch (ReadException e) {
             LOGGER.severe(e.getMessage());
            throw new InternalServerErrorException(e.getMessage());

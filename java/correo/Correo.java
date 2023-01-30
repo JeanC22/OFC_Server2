@@ -20,6 +20,9 @@ import javax.mail.internet.MimeMessage;
 public class Correo {
 
     /**
+     * @param destinatario
+     * @param asunto
+     * @param cuerpo
      * @param args the command line arguments
      */
     /*public static void main(String[] args) {
@@ -31,12 +34,12 @@ public class Correo {
 
     }
 */
-
     public static void enviarConGMail(String destinatario, String asunto, String cuerpo) {
+        DescifradoEmail de = new DescifradoEmail();
         //La dirección de correo de envío
-        String remitente = "ofc.dam2@gmail.com";
+        String remitente = de.descifrarEmailCorreo();//"ofc.dam2@gmail.com";
         //La clave de aplicación obtenida según se explica en este artículo:
-        String claveemail = "fipwhjvpimgguzjf";
+        String claveemail = de.descifrarEmailPassword();//"fipwhjvpimgguzjf";
 
         Properties props = System.getProperties();
         props.put("mail.smtp.host", "smtp.gmail.com");  //El servidor SMTP de Google
@@ -62,5 +65,15 @@ public class Correo {
             me.printStackTrace();   //Si se produce un error
         }
     }
+    
+     public static void main(String[] args) {
+         DescifradoEmail d = new DescifradoEmail();
+         //d.cifrarTexto("ofc", "ofc.dam2@gmail.com");
+         enviarConGMail("aritzerandio@gmail.com", "a", "a");
+         System.out.println("Mensaje enviado");
+         
+    }
+    
+  
 
 }
