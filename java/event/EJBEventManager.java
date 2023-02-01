@@ -149,7 +149,7 @@ public class EJBEventManager implements EventManager {
     public List<Event> findEventByActivity(String activity) throws ReadException {
         List<Event> events;
         try {
-            events = em.createNamedQuery("findEventByActivity").setParameter("activity", activity).getResultList();
+            events = em.createNamedQuery("findEventByActivity").setParameter("activity", activity + "%").getResultList();
         } catch (Exception e) {
             throw new ReadException(e.getMessage());
         }
