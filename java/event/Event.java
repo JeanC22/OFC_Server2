@@ -45,7 +45,7 @@ import javax.xml.bind.annotation.XmlTransient;
     
     @NamedQuery(name = "findEventByName" ,query = "select e from Event e where e.name = :name"),
     
-    @NamedQuery(name = "findEventByActivity", query = "select e from Event e where e.activity = :activity"),
+    @NamedQuery(name = "findEventByActivity", query = "select e from Event e where e.activity Like :activity"),
     
     @NamedQuery(name = "findEventByDate", query = "select e from Event e where e.date = :date")
        
@@ -84,7 +84,7 @@ public class Event implements Serializable {
     @JoinTable(name = "event_sponsor", schema = "OFC_DB")
     private Set<Sponsor> ads;
    
-    @OneToMany(mappedBy = "event")
+    @OneToMany(mappedBy = "event", cascade = CascadeType.REMOVE)
     private List<Coment> coments;
     
     @ManyToMany(fetch = FetchType.EAGER)
