@@ -53,7 +53,6 @@ public class ComentFacadeREST {
     public void createComent(Coment coment) throws ReadException {
         try {
             LOGGER.log(Level.INFO, "Creating Coment", coment.getComentid());
-
             ejb.createComent(coment);
         } catch (CreateException ex) {
             LOGGER.severe(ex.getMessage());
@@ -245,6 +244,29 @@ public class ComentFacadeREST {
         try {
             LOGGER.log(Level.INFO, "Reading data for all coments.");
             coments = ejb.findMyComments(clientID);
+        } catch (ReadException ex) {
+            LOGGER.severe(ex.getMessage());
+            throw new InternalServerErrorException(ex.getMessage());
+        }
+        return coments;
+
+    }
+
+    /**
+     * GET method for getting all coments from client it uses the business
+     * method findMyComments.
+     *
+     * @param eventID the eventID
+     * @return A list of coment object.
+     */
+    @GET
+    @Path("EventComents/{eventID}")
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public List<Coment> EventComents(@PathParam("eventID") Long eventID) {
+        List<Coment> coments = null;
+        try {
+            LOGGER.log(Level.INFO, "Reading data for all coments.");
+            coments = ejb.EventComents(eventID);
         } catch (ReadException ex) {
             LOGGER.severe(ex.getMessage());
             throw new InternalServerErrorException(ex.getMessage());

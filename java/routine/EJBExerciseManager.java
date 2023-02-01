@@ -47,8 +47,16 @@ public class EJBExerciseManager implements ExerciseManager{
          List<Exercise> list;
         
          try {
-            list= em.createNamedQuery("consultExerciseByName").setParameter("name", exercises).getResultList();
-            exercise= list.get(0);
+             list= em.createNamedQuery("consultAllExercises").getResultList();
+               for (int i = 0; i < list.size(); i++) {
+                     if (list.get(i).getExercise() == exercises) {
+                         exercise= list.get(i);
+                }
+               
+            }
+            
+                    /*em.createNamedQuery("consultExerciseByName").setParameter("name", exercises).getResultList();
+            exercise= list.get(0);*/
            
         } catch (Exception e) {
             throw new ReadException(e.getMessage());

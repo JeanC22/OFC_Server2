@@ -61,8 +61,11 @@ import javax.xml.bind.annotation.XmlTransient;
     ,
  //searches by specific user    
     @NamedQuery(name = "MyComents",
-            query = "SELECT c FROM Coment c WHERE c.comClie.id = :clientID"),})
-@XmlRootElement
+            query = "SELECT c FROM Coment c WHERE c.comClie.id = :clientID")
+    ,
+@NamedQuery(name = "EventComents",
+            query = "SELECT c FROM Coment c , Event E WHERE c.event.id = :eventID"),})
+@XmlRootElement(name = "coments")
 public class Coment implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -156,7 +159,6 @@ public class Coment implements Serializable {
         this.subject = subject;
     }
 
-    @XmlTransient
     public Client getComClie() {
         return comClie;
     }
@@ -165,7 +167,6 @@ public class Coment implements Serializable {
         this.comClie = client;
     }
 
-    @XmlTransient
     public Event getEvent() {
         return event;
     }

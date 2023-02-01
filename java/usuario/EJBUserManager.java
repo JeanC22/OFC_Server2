@@ -5,9 +5,11 @@
  */
 package usuario;
 
+import correo.Correo;
 import exceptions.*;
 import java.util.List;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -15,14 +17,12 @@ import javax.persistence.PersistenceContext;
  *
  * @author iker
  */
-
 @Stateless
-public class EJBUserManager implements UserManager{
+public class EJBUserManager implements UserManager {
 
-    
     @PersistenceContext(unitName = "OFC_ServerWebPU")
     private EntityManager em;
-  
+
     @Override
     public User signIn(String username, String password) throws ReadException {
         List<User> list;
@@ -33,36 +33,52 @@ public class EJBUserManager implements UserManager{
         } catch (Exception e) {
             throw new ReadException();
         }
-        
+
         return usu;
     }
 
     @Override
-    public void signUp(User user) throws CreateException {
+    public void signUp(Client cli) throws CreateException {
         try {
-            
-            em.persist(user);
+
+            em.persist(cli);
         } catch (Exception e) {
             throw new CreateException();
         }
-        
+
     }
-        
-    @Override
-    public void passwordChange(User user, String password) throws UpdateException {
-        try{
-            if (!em.contains(user)) {
-                em.merge(user).setPassword(password);
-                em.flush();
-            }
-        }catch (Exception e) {
-            throw new UpdateException(e.getMessage());
-        }
-    }     
 
     @Override
-    public void passwordForgotten(User user) throws UpdateException {
-       
+    public void passwordChange(Long id, String newPassword, String oldPassword) throws UpdateException {
+        try {
+            User user = em.find(User.class, id);
+            if (user.getPassword().equals(oldPassword)) {
+                user.setPassword(newPassword);
+                em.merge(user);
+            }
+            em.flush();
+        } catch (Exception e) {
+            throw new UpdateException(e.getMessage());
+        }
+    }
+
+    @Override
+    public void passwordForgotten(Long id, String password, String passwordHash) throws UpdateException {
+
+        User user;
+        try {
+            user = em.find(User.class, id);
+
+            Correo.enviarConGMail(user.getEmail(), "Recuperacion de password", password);
+
+            user.setPassword(passwordHash);
+            em.merge(user);
+            em.flush();
+
+        } catch (Exception e) {
+            throw new UpdateException(e.getMessage());
+        }
+
     }
 
     @Override
@@ -75,6 +91,5 @@ public class EJBUserManager implements UserManager{
         }
         return list;
     }
-    
-    
+
 }

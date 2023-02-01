@@ -24,10 +24,10 @@ public interface CommentsMannager {
      * @param coment The coment entity object containing new coment data.
      * @throws CreateException Thrown when any error or exception occurs during
      * creation.
-    * @throws ReadException Thrown when any error or exception occurs during
+     * @throws ReadException Thrown when any error or exception occurs during
      * reading.
      */
-    public void createComent(Coment coment) throws CreateException ,ReadException;
+    public void createComent(Coment coment) throws CreateException, ReadException;
 
     /**
      * This method delete a Coment from a client in a event.
@@ -112,5 +112,15 @@ public interface CommentsMannager {
      * reading.
      */
     public List<Coment> findMyComments(Long clientID) throws ReadException;
+
+    /**
+     * This method gets a list with all Coments from a user in the data store.
+     *
+     * @param eventID the clientID from the coment to be got.
+     * @return A List of Coment entity objects.
+     * @throws ReadException Thrown when any error or exception occurs during
+     * reading.
+     */
+    public List<Coment> EventComents(Long eventID) throws ReadException;
 
 }
