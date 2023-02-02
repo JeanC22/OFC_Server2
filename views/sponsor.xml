@@ -1,0 +1,64 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+    <record model="ir.ui.view" id="ofc_odoo.sponsor_list">
+      <field name="name">OFC Sponsor List</field>
+      <field name="model">ofc_odoo.sponsor</field>
+      <field name="arch" type="xml">
+        <tree string ="Sponsor Tree">
+          <field name="name"/>
+          <field name="email"/>
+          <field name="state"/>
+          <field name="date"/>
+          <field name="phone"/>
+          <field name="adType"/>
+        </tree>
+      </field>
+    </record>
+    
+    <record model="ir.ui.view" id="ofc_odoo.sponsor_form">
+      <field name="name">OFC Sponsor Form</field>
+      <field name="model">ofc_odoo.sponsor</field>
+      <field name="arch" type="xml">
+        <form string ="Sponsor Form">
+          <sheet>
+              <group>
+                  <separator string="Sponsor Create" colspan="4"/>
+                  <field name="name"/>
+                  <field name="email"/>
+                  <field name="state"/>
+                  <field name="date"/>
+                  <field name="phone"/>
+                  <field name="adType"/>
+                  <field name="admin"/>
+              </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+    
+    <record model="ir.ui.view" id="ofc_odoo.sponsor_search">
+      <field name="name">OFC Sponsor Search</field>
+      <field name="model">ofc_odoo.sponsor</field>
+      <field name="arch" type="xml">
+        <search string ="Sponsor Search">
+          <field name="name"/>
+          <field name="date"/>
+        </search>
+      </field>
+    </record>
+
+    <!-- actions opening views on models -->   
+    <record model="ir.actions.act_window" id="ofc_odoo.sponsors_action">
+      <field name="name">OFC Sponsor</field>
+      <field name="res_model">ofc_odoo.sponsor</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+    
+    <!-- actions  -->
+    <menuitem name="Sponsor Managment" 
+              id="ofc_odoo.menu_1_list" 
+              parent="ofc_odoo.menu_1" 
+              action="ofc_odoo.sponsors_action"/>
+  </data>
+</odoo>
