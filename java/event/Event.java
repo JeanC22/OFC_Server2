@@ -16,6 +16,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -208,7 +209,7 @@ public class Event implements Serializable {
 
     @Override
     public String toString() {
-        return "entities.User1[ id=" + id + " ]";
+        return this.name;
     }
     
 }
