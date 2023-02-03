@@ -170,7 +170,7 @@ public class EJBEventManager implements EventManager {
          List<Event> events = null;
             try {
                
-                Date dateformat= new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX").parse(date);
+                Date dateformat= new SimpleDateFormat("yyyy-MM-dd").parse(date);
                 try {
                     
                     events = em.createNamedQuery("findEventByDate").setParameter("date", dateformat).getResultList();
