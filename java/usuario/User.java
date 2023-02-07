@@ -9,6 +9,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.io.Serializable;
 import java.util.Date;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -30,9 +32,11 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@Table(name = "USERS", schema = "ofc_db")
+@Table(name = "users", schema = "ofc_db")
+@DiscriminatorColumn(discriminatorType = DiscriminatorType.STRING,
+    name = "DTYPE")
 @NamedQueries({
-   @NamedQuery(name = "findUser", query = "Select u from User u where u.username = :username and u.password = :password"),
+   @NamedQuery(name = "findUser", query = "Select u from User u where u.username = :username and u.password Like :password"),
     @NamedQuery(name = "findAllUser", query = "Select u from User u")
 })
 @XmlRootElement

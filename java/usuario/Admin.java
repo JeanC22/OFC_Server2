@@ -5,7 +5,6 @@
  */
 package usuario;
 
-
 import sponsors.Sponsor;
 import event.Event;
 import java.io.Serializable;
@@ -22,17 +21,15 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @DiscriminatorValue("UA")
-@XmlRootElement
+@XmlRootElement(name = "users")
 public class Admin extends User implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
-  
-    
-   @OneToMany(mappedBy="admin")
+
+    @OneToMany(mappedBy = "admin")
     private Set<Event> events;
-  
-    @OneToMany(mappedBy="admin")
+
+    @OneToMany(mappedBy = "admin")
     private Set<Sponsor> sponsors;
 
     @XmlTransient
@@ -43,6 +40,7 @@ public class Admin extends User implements Serializable {
     public void setEvents(Set<Event> events) {
         this.events = events;
     }
+
     @XmlTransient
     public Set<Sponsor> getSponsors() {
         return sponsors;
@@ -51,7 +49,5 @@ public class Admin extends User implements Serializable {
     public void setSponsors(Set<Sponsor> sponsors) {
         this.sponsors = sponsors;
     }
-    
-    
 
 }

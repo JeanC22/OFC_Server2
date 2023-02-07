@@ -55,32 +55,31 @@ public class UserFacadeREST {
     }
 
     @PUT
-    @Path("{id}/{newPassword}/{oldPassword}")
+    @Path("/changePassword/{id}/{newPassword}/{oldPassword}")
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public void edit(@PathParam("id") Long id, @PathParam("newPassword") String newPassword, @PathParam("oldPassword") String oldPassword) {
         LOGGER.severe("Changing password");
 
-        
         oldPassword = cifrarTexto(oldPassword);
         newPassword = cifrarTexto(newPassword);
         try {
-            ejb.passwordChange(id, newPassword, oldPassword);
+            ejb.editPasswordChange(id, newPassword, oldPassword);
             LOGGER.severe("password changed");
         } catch (UpdateException ex) {
             LOGGER.severe(ex.getMessage());
             throw new InternalServerErrorException(ex.getMessage());
         }
     }
-    
+
     @PUT
-    @Path("Forgotten/{id}")
+    @Path("/forgotten/{id}")
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public void edit(@PathParam("id") Long id) {
         LOGGER.severe("Changing password");
-        String password="pepe",passwordhash = "pepe";
+        String password = "pepe", passwordhash = "pepe";
         try {
-           passwordhash = cifrarTexto(passwordhash);
-            ejb.passwordForgotten(id,password,passwordhash);
+            passwordhash = cifrarTexto(passwordhash);
+            ejb.editPasswordForgotten(id, password, passwordhash);
             LOGGER.severe("password changed");
         } catch (UpdateException ex) {
             LOGGER.severe(ex.getMessage());

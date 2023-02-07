@@ -25,11 +25,10 @@ public class EJBUserManager implements UserManager {
 
     @Override
     public User signIn(String username, String password) throws ReadException {
-        List<User> list;
+
         User usu;
         try {
-            list = em.createNamedQuery("findUser").setParameter("username", username).setParameter("password", password).getResultList();
-            usu = list.get(0);
+            usu = (User) em.createNamedQuery("findUser").setParameter("username", username).setParameter("password", password).getSingleResult();
         } catch (Exception e) {
             throw new ReadException();
         }
@@ -49,7 +48,7 @@ public class EJBUserManager implements UserManager {
     }
 
     @Override
-    public void passwordChange(Long id, String newPassword, String oldPassword) throws UpdateException {
+    public void editPasswordChange(Long id, String newPassword, String oldPassword) throws UpdateException {
         try {
             User user = em.find(User.class, id);
             if (user.getPassword().equals(oldPassword)) {
@@ -63,7 +62,7 @@ public class EJBUserManager implements UserManager {
     }
 
     @Override
-    public void passwordForgotten(Long id, String password, String passwordHash) throws UpdateException {
+    public void editPasswordForgotten(Long id, String password, String passwordHash) throws UpdateException {
 
         User user;
         try {

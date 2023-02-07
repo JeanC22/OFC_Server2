@@ -5,7 +5,6 @@
  */
 package usuario;
 
-
 import comments.Coment;
 import event.Event;
 import java.io.Serializable;
@@ -24,17 +23,17 @@ import routine.Routine;
  */
 @Entity
 @DiscriminatorValue("UC")
-@XmlRootElement
+@XmlRootElement(name = "users")
 public class Client extends User implements Serializable {
 
     private static final long serialVersionUID = 1L;
-  
+
     @OneToMany(targetEntity = Coment.class, mappedBy = "comClie")
     private List<Coment> comentarios;
-    
+
     @OneToMany(mappedBy = "clie")
     private List<Routine> rutinas;
-    
+
     @ManyToMany
     private List<Event> events;
 
@@ -45,8 +44,8 @@ public class Client extends User implements Serializable {
 
     public void setEvents(List<Event> events) {
         this.events = events;
-    }    
-    
+    }
+
     @XmlTransient
     public List<Coment> getComentarios() {
         return comentarios;
@@ -65,6 +64,4 @@ public class Client extends User implements Serializable {
         this.rutinas = rutinas;
     }
 
-  
-    
 }
