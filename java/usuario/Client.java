@@ -9,8 +9,6 @@ import comments.Coment;
 import event.Event;
 import java.io.Serializable;
 import java.util.List;
-import javax.persistence.DiscriminatorColumn;
-import javax.persistence.DiscriminatorType;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;

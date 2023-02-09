@@ -72,7 +72,7 @@ public class UserFacadeREST {
     }
 
     @PUT
-    @Path("/forgotten/{id}")
+    @Path("/{id}")
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public void edit(@PathParam("id") Long id) {
         LOGGER.severe("Changing password");
