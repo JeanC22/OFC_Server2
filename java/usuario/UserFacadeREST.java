@@ -63,7 +63,7 @@ public class UserFacadeREST {
         oldPassword = cifrarTexto(oldPassword);
         newPassword = cifrarTexto(newPassword);
         try {
-            ejb.editPasswordChange(id, newPassword, oldPassword);
+            ejb.passwordChange(id, newPassword, oldPassword);
             LOGGER.severe("password changed");
         } catch (UpdateException ex) {
             LOGGER.severe(ex.getMessage());
@@ -77,9 +77,10 @@ public class UserFacadeREST {
     public void edit(@PathParam("id") Long id) {
         LOGGER.severe("Changing password");
         String password = "pepe", passwordhash = "pepe";
+
         try {
             passwordhash = cifrarTexto(passwordhash);
-            ejb.editPasswordForgotten(id, password, passwordhash);
+            ejb.passwordForgotten(id, password, passwordhash);
             LOGGER.severe("password changed");
         } catch (UpdateException ex) {
             LOGGER.severe(ex.getMessage());

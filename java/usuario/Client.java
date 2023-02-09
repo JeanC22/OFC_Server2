@@ -9,6 +9,8 @@ import comments.Coment;
 import event.Event;
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorType;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
@@ -23,7 +25,7 @@ import routine.Routine;
  */
 @Entity
 @DiscriminatorValue("UC")
-@XmlRootElement(name = "users")
+@XmlRootElement
 public class Client extends User implements Serializable {
 
     private static final long serialVersionUID = 1L;

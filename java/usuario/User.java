@@ -32,47 +32,49 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@Table(name = "users", schema = "ofc_db")
+@Table(name = "USERS", schema = "ofc_db")
 @DiscriminatorColumn(discriminatorType = DiscriminatorType.STRING,
-    name = "DTYPE")
+        name = "DTYPE")
 @NamedQueries({
-   @NamedQuery(name = "findUser", query = "Select u from User u where u.username = :username and u.password Like :password"),
+    @NamedQuery(name = "findUser", query = "Select u from User u where u.username = :username and u.password = :password")
+    ,
     @NamedQuery(name = "findAllUser", query = "Select u from User u")
 })
 @XmlRootElement
 public class User implements Serializable {
 
-  private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private String username;
-    
+
     private String email;
 
     private String fullName;
-    
+
     @Temporal(TemporalType.TIMESTAMP)
-    @JsonSerialize(as=Date.class)
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm")
+    @JsonSerialize(as = Date.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm")
     private Date lastPasswordChange;
 
     @Enumerated(EnumType.ORDINAL)
     private UserStatus status;
-    
+
     @Enumerated(EnumType.ORDINAL)
     private UserPrivilege privilege;
-    
+
     private String password;
-    
-     public Long getId() {
+
+    public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
     }
+
     public String getUsername() {
         return username;
     }
@@ -129,7 +131,6 @@ public class User implements Serializable {
         this.password = password;
     }
 
-
     public User() {
         super();
     }
@@ -158,5 +159,5 @@ public class User implements Serializable {
     public String toString() {
         return this.username;
     }
-    
+
 }

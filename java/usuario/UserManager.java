@@ -18,9 +18,9 @@ public interface UserManager {
     
     public void signUp(Client clie) throws CreateException;
     
-    public void editPasswordChange(Long id, String newPassword, String oldPassword) throws UpdateException;
+    public void passwordChange(Long id, String newPassword, String oldPassword) throws UpdateException;
     
-    public void editPasswordForgotten(Long id,String password,String passwordHash) throws UpdateException;
+    public void passwordForgotten(Long id,String password,String passwordHash) throws UpdateException;
     
     public List<User> allusers() throws ReadException;
 }

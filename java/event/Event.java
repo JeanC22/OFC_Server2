@@ -48,7 +48,7 @@ import javax.xml.bind.annotation.XmlTransient;
     
     @NamedQuery(name = "findEventByActivity", query = "select e from Event e where e.activity Like :activity"),
     
-    @NamedQuery(name = "findEventByDate", query = "select e from Event e where e.date = :date")
+    @NamedQuery(name = "findEventByDate", query = "select e from Event e where e.date Like :date")
        
 })
 
